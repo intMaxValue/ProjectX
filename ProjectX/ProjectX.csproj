@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <ProjectReference Include="..\ProjectX.Core\ProjectX.Core.csproj" />
+    <ProjectReference Include="..\ProjectX.Infrastructure\ProjectX.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
