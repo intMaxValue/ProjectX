@@ -10,12 +10,15 @@ namespace ProjectX.Extensions
         {
             //services.AddSingleton<RssFeedService>();
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
             return services;
         }
 
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
