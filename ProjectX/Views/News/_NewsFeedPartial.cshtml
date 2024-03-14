@@ -1,0 +1,16 @@
+﻿@model List<ProjectX.ViewModels.RssNewsFeed.NewsItemViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <img src="@item.ImageUrl" class="card-img-top" alt="News Image">
+            <div class="card-body">
+                <h5 class="card-title">@item.Title</h5>
+                <p class="card-text">@item.Description</p>
+                <p class="card-text">Published by @item.Creator on @item.PublishDate.ToString("MMM dd, yyyy")</p>
+                <a href="@item.Link" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Read More</a>
+            </div>
+        </div>
+    </div>
+}

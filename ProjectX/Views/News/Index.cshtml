@@ -1,0 +1,91 @@
+﻿@model List<ProjectX.ViewModels.RssNewsFeed.NewsItemViewModel>
+@{
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+}
+
+<div class="container">
+    <h1 class="mt-5">Nail Salon News</h1>
+
+    <div class="row mt-4" id="news-feed">
+        <!-- Articles will be loaded dynamically via AJAX -->
+    </div>
+</div>
+
+<div id="loading" style="display: none;">Loading...</div>
+
+<button id="scrollToTopBtn" class="btn btn-primary btn-xxl rounded-circle position-fixed" title="Scroll to Top" style="display: none; bottom: 70px; right: 50px;">
+    <i class="bi bi-arrow-up"></i>
+</button>
+
+@section Scripts {
+    <style>
+        .btn-xxl {
+            padding: 20px 30px; /* Adjust padding as needed */
+            font-size: 2rem; /* Adjust font size as needed */
+        }
+    </style>
+
+    <script>
+        var page = 1;
+        var loading = false;
+
+        $(document).ready(function () {
+            // Load initial set of articles
+            loadArticles();
+
+            // When the user scrolls down, load more articles
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !loading) {
+                    loadArticles();
+                }
+            });
+
+            // Scroll to top button logic
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+            window.onscroll = function () {
+                scrollFunction();
+            };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    scrollToTopBtn.style.display = "block";
+                } else {
+                    scrollToTopBtn.style.display = "none";
+                }
+            }
+
+            scrollToTopBtn.addEventListener("click", function () {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            });
+        });
+
+        function loadArticles() {
+            loading = true;
+            $("#loading").show();
+
+            $.ajax({
+                url: "/News/LoadMoreArticles",
+                type: "GET",
+                data: { page: page },
+                success: function (data) {
+                    if (data.length > 0) {
+                        $("#news-feed").append(data);
+                        page++;
+                    } else {
+                        // No more articles to load
+                        $(window).off("scroll");
+                    }
+                },
+                complete: function () {
+                    loading = false;
+                    $("#loading").hide();
+                },
+                error: function () {
+                    console.error("Failed to load articles.");
+                }
+            });
+        }
+    </script>
+}
