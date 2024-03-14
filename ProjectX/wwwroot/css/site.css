@@ -16,3 +16,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.homeBackground {
+    position: fixed;
+    top: 56px; /* Height of the navigation bar */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 56px); /* Adjust for the height of the navigation bar */
+    background-image: url('../Images/HomeWallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+/*Home screen Site Name*/
+.display-4 {
+    color: black; /* Set the color of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a text shadow for better readability */
+    margin-left: 100px;
+}
