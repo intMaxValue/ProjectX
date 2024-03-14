@@ -1,8 +1,23 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "ProjectX";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" /> 
+</head>
+
+<body>
+<div class="container-fluid">
+    <div id="homeBackground" class="row justify-content-center align-items-center homeBackground">
+        <div class="col"> 
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <div class="row">
+                <a asp-controller="News" asp-action="Index" class="btn btn-lg btn-outline-primary col-lg-2 m-lg-4">Enter</a>
+            </div>
+        </div>
+    </div>
 </div>
+</body>
