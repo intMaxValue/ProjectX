@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProjectX.Infrastructure.Data.Models;
 
 namespace ProjectX.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<User> AppUsers { get; set; } = null!;
         public DbSet<Salon> Salons { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<Photo> Photos { get; set; } = null!;
