@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProjectX.Core.Contracts;
 using ProjectX.Core.Services;
 using ProjectX.Infrastructure.Data;
 
@@ -10,6 +11,9 @@ namespace ProjectX.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddSingleton<RssFeedService>();
+
+            services.AddScoped<ISalonService, SalonService>();
+
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
