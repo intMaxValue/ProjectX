@@ -1,4 +1,5 @@
 ﻿using ProjectX.Infrastructure.Data.Models;
+using ProjectX.ViewModels.Salon;
 
 namespace ProjectX.Core.Contracts
 {
@@ -6,7 +7,7 @@ namespace ProjectX.Core.Contracts
     {
         Task<IEnumerable<Salon>> GetAllSalonsAsync(string searchQuery);
         Task<Salon?> GetSalonByIdAsync(int id);
-        Task<Salon> CreateSalonAsync(Salon salon);
+        Task<Salon> CreateSalonAsync(CreateSalonViewModel model, string userId);
         Task DeleteSalonAsync(int id);
     }
 }

@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
 using ProjectX.Infrastructure.Data;
 using ProjectX.Infrastructure.Data.Models;
+using ProjectX.ViewModels.Salon;
 
 namespace ProjectX.Core.Services
 {
     public class SalonService : ISalonService
     {
         private readonly ApplicationDbContext _context;
-
         public SalonService(ApplicationDbContext context)
         {
             _context = context;
@@ -39,8 +40,20 @@ namespace ProjectX.Core.Services
         }
 
 
-        public async Task<Salon> CreateSalonAsync(Salon salon)
+        public async Task<Salon> CreateSalonAsync(CreateSalonViewModel model, string userId)
         {
+            var salon = new Salon()
+            {
+                Name = model.Name,
+                City = model.City,
+                Address = model.Address,
+                Description = model.Description,
+                OwnerId = userId,
+                PhoneNumber = model.PhoneNumber,
+                MapUrl = model.MapUrl,
+                //TODO the rest
+            };
+
             _context.Salons.Add(salon);
             await _context.SaveChangesAsync();
             return salon;
