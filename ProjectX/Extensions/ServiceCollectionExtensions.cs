@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
 using ProjectX.Core.Services;
 using ProjectX.Infrastructure.Data;
+using ProjectX.Infrastructure.Data.Models;
 
 namespace ProjectX.Extensions
 {
@@ -32,8 +33,10 @@ namespace ProjectX.Extensions
 
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 
             return services;
         }
