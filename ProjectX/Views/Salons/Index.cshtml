@@ -2,9 +2,18 @@
 
 @{
     ViewData["Title"] = "Salons";
+    bool isSalonOwner = false; // Add logic to determine if the user is a SalonOwner
 }
 
 <h1 class="mt-4 mb-3">Salons</h1>
+
+
+@if (!isSalonOwner)
+{
+    <div class="text-end mb-3">
+        <a href="@Url.Action("Create", "Salons")" class="btn btn-primary">Add your salon to ProjectX</a>
+    </div>
+}
 
 <div class="row">
     @foreach (var salon in Model)

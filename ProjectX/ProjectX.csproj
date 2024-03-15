@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ProjectX.Core\ProjectX.Core.csproj" />
     <ProjectReference Include="..\ProjectX.Infrastructure\ProjectX.Infrastructure.csproj" />
+    <ProjectReference Include="..\ProjectX.ViewModels\ProjectX.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

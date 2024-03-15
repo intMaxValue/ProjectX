@@ -1,5 +1,6 @@
 using ProjectX.Extensions;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
