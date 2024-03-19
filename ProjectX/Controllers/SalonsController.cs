@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectX.Core.Contracts;
+using ProjectX.Core.Services;
 using ProjectX.Infrastructure.Data.Models;
 using ProjectX.ViewModels.Salon;
 
@@ -10,10 +11,12 @@ namespace ProjectX.Controllers
     {
         private readonly ISalonService _salonService;
         private readonly UserManager<IdentityUser> _userManager;
-        public SalonsController(ISalonService salonService, UserManager<IdentityUser> userManager)
+        private readonly ImageUploader _imageUploader;
+        public SalonsController(ISalonService salonService, UserManager<IdentityUser> userManager, ImageUploader imageUploader)
         {
             _salonService = salonService;
             _userManager = userManager;
+            _imageUploader = imageUploader; 
         }
 
         public async Task<IActionResult> Index(string searchQuery)
@@ -28,7 +31,8 @@ namespace ProjectX.Controllers
                 City = s.City,
                 PhoneNumber = s.PhoneNumber,
                 Description = s.Description,
-                MapUrl = s.MapUrl
+                MapUrl = s.MapUrl,
+                ProfilePictureUrl = s.ProfilePictureUrl,
             });
 
             return View(salonViewModels);
@@ -43,17 +47,24 @@ namespace ProjectX.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateSalonViewModel model)
+        public async Task<IActionResult> Create(CreateSalonViewModel model, IFormFile profilePicture)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             string userId = currentUser.Id;
+
+            model.OwnerId = userId;
+
+            model.ProfilePictureUrl = string.Empty;
 
             if (ModelState.IsValid && userId != null)
             {
                 try
                 {
+                    string profilePictureUrl = await _imageUploader.UploadImageAsync(profilePicture);
+                    model.ProfilePictureUrl = profilePictureUrl;
+
                     await _salonService.CreateSalonAsync(model, userId);
-                    return RedirectToAction("Index"); 
+                    return RedirectToAction("Index");
                 }
                 catch (Exception)
                 {
