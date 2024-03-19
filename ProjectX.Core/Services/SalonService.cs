@@ -51,7 +51,7 @@ namespace ProjectX.Core.Services
                 OwnerId = userId,
                 PhoneNumber = model.PhoneNumber,
                 MapUrl = model.MapUrl,
-                //TODO the rest
+                ProfilePictureUrl = model.ProfilePictureUrl,
             };
 
             _context.Salons.Add(salon);
