@@ -9,12 +9,15 @@ namespace ProjectX.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, string clientId)
         {
             services.AddSingleton<RssFeedService>();
-
             services.AddScoped<ISalonService, SalonService>();
+            services.AddHttpClient<ImageUploader>();
 
+            // Register ImageUploader with clientId
+            services.AddTransient<ImageUploader>(provider =>
+                new ImageUploader(provider.GetRequiredService<HttpClient>(), clientId));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
