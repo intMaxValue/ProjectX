@@ -7,7 +7,6 @@
 
 <h1 class="mt-4 mb-3">Salons</h1>
 
-
 @if (!isSalonOwner)
 {
     <div class="text-end mb-3">
@@ -20,6 +19,8 @@
     {
         <div class="col-md-4 mb-4">
             <div class="card">
+                <!-- Add image -->
+                <img src="@salon.ProfilePictureUrl" class="card-img-top" alt="Salon Profile Picture">
                 <div class="card-body">
                     <h5 class="card-title">@salon.Name</h5>
                     <p class="card-text">@salon.Description</p>
