@@ -10,7 +10,7 @@ builder.Services.AddApplicationIdentity(builder.Configuration);
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices("6863376da90e549");
 
 builder.Services.AddControllersWithViews();
 
