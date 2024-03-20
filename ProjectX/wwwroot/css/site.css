@@ -30,9 +30,26 @@ body {
     z-index: -1;
 }
 
-/*Home screen Site Name*/
-.display-4 {
-    color: black; /* Set the color of the text */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a text shadow for better readability */
-    margin-left: 100px;
+.content-box {
+    padding: 20px;
+    background-color: rgba(128, 128, 128, 0.5); /* Grey with 50% opacity */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    color: #fff; /* White text color */
+    z-index: 1;
 }
+
+.display-4 {
+    margin-bottom: 20px; /* Add space below the title */
+    font-family: 'Crimson Text', sans-serif;
+}
+
+.btn-outline-primary {
+    border-color: #fff; /* White border for the button */
+    color: #fff; /* White text color for the button */
+}
+
+    .btn-outline-primary:hover {
+        background-color: #fff; /* White background on hover */
+        color: #000; /* Black text color on hover */
+    }
