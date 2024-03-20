@@ -1,0 +1,25 @@
+﻿@model ProjectX.ViewModels.Salon.SalonViewModel
+@{
+    ViewData["Title"] = Model.Name; // Set the title of the page to the salon name
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <img src="@Model.ProfilePictureUrl" class="card-img-top" alt="Salon Profile Picture">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Name</h5>
+                    <p class="card-text">Location:  @Model.City, @Model.Address</p>
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text">Phone number:  @Model.PhoneNumber</p>
+
+                    <div class="text-center mt-4">
+                        <a href="#" class="btn btn-primary mr-2">Book Appointment</a>
+                        <a href="#" class="btn btn-secondary">Contact Salon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
