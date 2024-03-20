@@ -10,14 +10,16 @@
 </head>
 
 <body>
-<div class="container-fluid">
-    <div id="homeBackground" class="row justify-content-center align-items-center homeBackground">
-        <div class="col"> 
-            <h1 class="display-4">@ViewData["Title"]</h1>
-            <div class="row">
-                <a asp-controller="News" asp-action="Index" class="btn btn-lg btn-outline-primary col-lg-2 m-lg-4">Enter</a>
+    <div class="container-fluid">
+        <div id="homeBackground" class="row justify-content-center align-items-center homeBackground">
+            <div class="col">
+                <div class="content-box text-center">
+                    <h1 class="display-4">@ViewData["Title"]</h1>
+                    <div class="row justify-content-center">
+                        <a asp-controller="News" asp-action="Index" class="btn btn-lg btn-outline-primary col-lg-2 m-lg-4">Enter</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
