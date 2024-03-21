@@ -1,0 +1,31 @@
+﻿@model ProjectX.ViewModels.Profile.CompleteProfileViewModel
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">User Profile</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+            <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+            <p><strong>City:</strong> @Model.City</p>
+            @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+            {
+                <p><img src="@Model.ProfilePictureUrl" alt="Profile Picture" class="img-fluid" style="max-width: 200px;" /></p>
+            }
+            else
+            {
+                <p>No profile picture available.</p>
+            }
+
+            @if (string.IsNullOrEmpty(Model.FirstName) || string.IsNullOrEmpty(Model.LastName) || string.IsNullOrEmpty(Model.PhoneNumber) || string.IsNullOrEmpty(Model.City))
+            {
+                <a href="@Url.Action("CompleteProfile", "UserProfile")" class="btn btn-primary">Complete your profile</a>
+            }
+        </div>
+    </div>
+</div>
