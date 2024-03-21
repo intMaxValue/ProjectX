@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using ProjectX.Infrastructure.Data.Models
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +29,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Salons" asp-action="Index">All Salons</a>
                         </li>
+                        
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
