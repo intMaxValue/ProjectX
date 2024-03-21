@@ -10,9 +10,9 @@ namespace ProjectX.Controllers
     public class SalonsController : Controller
     {
         private readonly ISalonService _salonService;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly ImageUploader _imageUploader;
-        public SalonsController(ISalonService salonService, UserManager<IdentityUser> userManager, ImageUploader imageUploader)
+        public SalonsController(ISalonService salonService, UserManager<User> userManager, ImageUploader imageUploader)
         {
             _salonService = salonService;
             _userManager = userManager;
