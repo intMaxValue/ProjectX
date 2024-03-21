@@ -5,7 +5,7 @@ using ProjectX.Infrastructure.Data.Models;
 
 namespace ProjectX.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Salon> Salons { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
@@ -24,7 +24,7 @@ namespace ProjectX.Infrastructure.Data
 
             // Fluent API configurations
             // Configure relationships between entities, set primary keys, etc.
-
+            
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.User)
                 .WithMany()
