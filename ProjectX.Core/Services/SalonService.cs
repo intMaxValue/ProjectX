@@ -27,6 +27,7 @@ namespace ProjectX.Core.Services
             return await query.ToListAsync();
         }
 
+
         public async Task<Salon?> GetSalonByIdAsync(int id)
         {
             var salon = await _context.Salons
