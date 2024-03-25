@@ -1,47 +1,31 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectX.Core.Contracts;
-using ProjectX.Core.Services;
-using ProjectX.Infrastructure.Data.Models;
 using ProjectX.ViewModels.Profile;
+using System.Security.Claims;
 
 namespace ProjectX.Controllers
 {
     public class UserProfileController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly ImageUploader _imageUploader;
+        private readonly IUserProfileService _profileService;
 
-        public UserProfileController(UserManager<User> userManager, ImageUploader imageUploader)
+        public UserProfileController(IUserProfileService profileService)
         {
-            _userManager = userManager;
-            _imageUploader = imageUploader;
+            _profileService = profileService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string id)
         {
-            if (id == null)
+            try
+            {
+                var model = await _profileService.GetProfileAsync(id);
+                return View(model);
+            }
+            catch (ArgumentException)
             {
                 return NotFound();
             }
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var model = new CompleteProfileViewModel()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                City = user.City,
-                PhoneNumber = user.PhoneNumber,
-                ProfilePictureUrl = user.ProfilePicture
-            };
-
-            return View(model);
         }
 
         [HttpGet]
@@ -58,54 +42,24 @@ namespace ProjectX.Controllers
             {
                 try
                 {
-                    // Get the current user
-                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                    var currentUserId = currentUser.Id;
-
-                    if (currentUser == null)
+                    string currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    bool success = await _profileService.UpdateProfileAsync(currentUserId, model, profilePicture);
+                    if (success)
                     {
-                        ModelState.AddModelError("", "User not found.");
-                        return View(model);
+                        return RedirectToAction(nameof(Index), new { id = currentUserId });
                     }
-
-                    // Update user profile
-                    currentUser.FirstName = model.FirstName;
-                    currentUser.LastName = model.LastName;
-                    currentUser.PhoneNumber = model.PhoneNumber;
-                    currentUser.City = model.City;
-
-                    // Upload profile picture if provided
-                    if (profilePicture != null)
-                    {
-                        string profilePictureUrl = await _imageUploader.UploadImageAsync(profilePicture);
-                        currentUser.ProfilePicture = profilePictureUrl;
-                    }
-
-                    // Save changes to user profile
-                    var result = await _userManager.UpdateAsync(currentUser);
-                    if (!result.Succeeded)
+                    else
                     {
                         ModelState.AddModelError("", "Failed to update user profile.");
-                        return View(model);
                     }
-
-                    // Redirect to profile confirmation page
-                    return RedirectToAction("Index", "UserProfile", $"{currentUserId}");
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "An error occurred while completing the profile: " + ex.Message);
-                    return View(model);
                 }
             }
 
-            // If the model state is invalid, redisplay the form with validation errors
             return View(model);
         }
-
-        //public IActionResult ProfileConfirmation()
-        //{
-        //    return View();
-        //}
     }
 }
