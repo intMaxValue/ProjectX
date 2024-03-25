@@ -13,6 +13,7 @@ namespace ProjectX.Controllers
             _salonService = salonService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(int id)
         {
             var salon = await _salonService.GetSalonByIdAsync(id);
@@ -35,5 +36,7 @@ namespace ProjectX.Controllers
 
             return View(model);
         }
+
+
     }
 }
