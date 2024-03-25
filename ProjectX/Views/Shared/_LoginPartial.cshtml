@@ -4,29 +4,42 @@
 @inject UserManager<User> UserManager
 
 @{
-    // Get the user's ID
     string userId = UserManager.GetUserId(User);
+
+    var user = await UserManager.GetUserAsync(User);
+    
+    string profilePictureUrl = (user != null ? user.ProfilePicture : null)!;
+    
+    string username = user?.UserName!;
 }
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="UserProfile" asp-action="Index" asp-route-id="@userId">My Profile: @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <div class="nav-link d-flex align-items-center">
+                <a class="text-dark d-flex align-items-center" asp-area="" asp-controller="UserProfile" asp-action="Index" asp-route-id="@userId">
+                    @if (!string.IsNullOrEmpty(profilePictureUrl))
+                    {
+                        <img src="@profilePictureUrl" alt="Profile Picture" class="rounded-circle mr-2" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px">
+                    }
+                    <span>My Profile: @username!</span>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>

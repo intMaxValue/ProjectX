@@ -21,6 +21,11 @@ namespace ProjectX.Extensions
             services.AddTransient<ImageUploader>(provider =>
                 new ImageUploader(provider.GetRequiredService<HttpClient>(), clientId));
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login"; // Setting the correct login path
+            });
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             return services;
