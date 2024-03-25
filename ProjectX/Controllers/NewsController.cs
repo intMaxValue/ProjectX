@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectX.Core.Services;
 
 namespace ProjectX.Controllers
 {
-    
+    [Authorize]
     public class NewsController : Controller
     {
         private readonly RssFeedService _rssFeedService;
