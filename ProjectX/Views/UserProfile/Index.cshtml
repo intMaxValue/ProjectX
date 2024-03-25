@@ -26,6 +26,10 @@
             {
                 <a href="@Url.Action("CompleteProfile", "UserProfile")" class="btn btn-primary">Complete your profile</a>
             }
+            else
+            {
+                <a href="@Url.Action("EditProfile", "UserProfile")" class="btn btn-primary">Edit your profile</a>
+            }
         </div>
     </div>
 <a href="@Url.Action("Index", "Salons")" class="btn mt-5 btn-primary">Back to All Salons</a>
