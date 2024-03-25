@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
 using ProjectX.Infrastructure.Data;
 using ProjectX.Infrastructure.Data.Models;
@@ -15,17 +14,6 @@ namespace ProjectX.Core.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Salon>> GetAllSalonsAsync(string searchQuery)
-        {
-            IQueryable<Salon> query = _context.Salons;
-
-            if (!string.IsNullOrWhiteSpace(searchQuery))
-            {
-                query = query.Where(s => s.Name.Contains(searchQuery) || s.City.Contains(searchQuery));
-            }
-
-            return await query.ToListAsync();
-        }
 
 
         public async Task<Salon?> GetSalonByIdAsync(int id)
@@ -38,6 +26,36 @@ namespace ProjectX.Core.Services
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             return salon == null ? throw new Exception("Salon not found") : salon;
+        }
+
+        public async Task<IEnumerable<Salon>> GetPaginatedSalonsAsync(string searchQuery, int page, int pageSize)
+        {
+            IQueryable<Salon> query = _context.Salons;
+
+            // Apply search filter if searchQuery is provided
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                query = query.Where(s => s.Name.Contains(searchQuery) || s.City.Contains(searchQuery));
+            }
+
+            // Apply pagination
+            var paginatedSalons = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return paginatedSalons;
+        }
+
+        public async Task<int> GetAllSalonsCountAsync(string searchQuery)
+        {
+            IQueryable<Salon> query = _context.Salons;
+
+            // Apply search filter if searchQuery is provided
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                query = query.Where(s => s.Name.Contains(searchQuery) || s.City.Contains(searchQuery));
+            }
+
+            // Return the total count of salons
+            return await query.CountAsync();
         }
 
 
