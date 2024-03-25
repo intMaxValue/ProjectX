@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectX.Core.Contracts;
 using ProjectX.Core.Services;
 using ProjectX.Infrastructure.Data.Models;
@@ -12,6 +13,9 @@ namespace ProjectX.Controllers
         private readonly ISalonService _salonService;
         private readonly UserManager<User> _userManager;
         private readonly ImageUploader _imageUploader;
+
+        private const int PageSize = 3; // 2 rows * 3 salons per row
+
         public SalonsController(ISalonService salonService, UserManager<User> userManager, ImageUploader imageUploader)
         {
             _salonService = salonService;
@@ -19,24 +23,44 @@ namespace ProjectX.Controllers
             _imageUploader = imageUploader; 
         }
 
-        public async Task<IActionResult> Index(string searchQuery)
+        public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
+            ViewBag.SearchQuery = searchQuery;
+
             var salons = await _salonService.GetAllSalonsAsync(searchQuery);
+            var paginatedSalons = salons
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .Select(s => new SalonViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Address = s.Address,
+                    City = s.City,
+                    PhoneNumber = s.PhoneNumber,
+                    Description = s.Description,
+                    MapUrl = s.MapUrl,
+                    ProfilePictureUrl = s.ProfilePictureUrl,
+                }).ToList();
 
-            var salonViewModels = salons.Select(s => new SalonViewModel
+            var totalSalons = salons.Count(); // Total count for pagination
+            var totalPages = (int)Math.Ceiling((double)totalSalons / PageSize);
+
+            var model = new SalonIndexViewModel
             {
-                Id = s.Id,
-                Name = s.Name,
-                Address = s.Address,
-                City = s.City,
-                PhoneNumber = s.PhoneNumber,
-                Description = s.Description,
-                MapUrl = s.MapUrl,
-                ProfilePictureUrl = s.ProfilePictureUrl,
-            });
+                Salons = paginatedSalons,
+                PaginationInfo = new PaginationInfoViewModel
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = totalSalons,
+                    TotalPages = totalPages
+                }
+            };
 
-            return View(salonViewModels);
+            return View(model);
         }
+
 
         public async Task<IActionResult> Create()
         {
