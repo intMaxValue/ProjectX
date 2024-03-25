@@ -14,8 +14,6 @@ namespace ProjectX.Core.Services
             _context = context;
         }
 
-
-
         public async Task<Salon?> GetSalonByIdAsync(int id)
         {
             var salon = await _context.Salons
