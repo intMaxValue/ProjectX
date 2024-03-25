@@ -27,11 +27,18 @@ namespace ProjectX.Controllers
         {
             ViewBag.SearchQuery = searchQuery;
 
-            var salons = await _salonService.GetAllSalonsAsync(searchQuery);
-            var paginatedSalons = salons
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .Select(s => new SalonViewModel
+            // Retrieve paginated salons from the service
+            var paginatedSalons = await _salonService.GetPaginatedSalonsAsync(searchQuery, page, PageSize);
+
+            // Retrieve total count of salons for pagination
+            var totalSalons = await _salonService.GetAllSalonsCountAsync(searchQuery);
+
+            // Calculate total pages
+            var totalPages = (int)Math.Ceiling((double)totalSalons / PageSize);
+
+            var model = new SalonIndexViewModel
+            {
+                Salons = paginatedSalons.Select(s => new SalonViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
@@ -41,14 +48,7 @@ namespace ProjectX.Controllers
                     Description = s.Description,
                     MapUrl = s.MapUrl,
                     ProfilePictureUrl = s.ProfilePictureUrl,
-                }).ToList();
-
-            var totalSalons = salons.Count(); // Total count for pagination
-            var totalPages = (int)Math.Ceiling((double)totalSalons / PageSize);
-
-            var model = new SalonIndexViewModel
-            {
-                Salons = paginatedSalons,
+                }),
                 PaginationInfo = new PaginationInfoViewModel
                 {
                     CurrentPage = page,
