@@ -44,13 +44,15 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "SalonProfile",
-        pattern: "SalonProfile/{id}",
+        pattern: "SalonProfile/Details/{id:int}", 
         defaults: new { controller = "SalonProfile", action = "Index" }
     );
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
+
+
 
 app.MapRazorPages();
 
