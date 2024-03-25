@@ -1,33 +1,62 @@
-﻿@model IEnumerable<ProjectX.ViewModels.Salon.SalonViewModel>
-
-@{
-    ViewData["Title"] = "Salons";
-    bool isSalonOwner = false; // Add logic to determine if the user is a SalonOwner
-}
+﻿@model ProjectX.ViewModels.Salon.SalonIndexViewModel
 
 <h1 class="mt-4 mb-3">Salons</h1>
 
-@if (!isSalonOwner)
+
+@using (Html.BeginForm("Index", "Salons", FormMethod.Get, new { @class = "form-inline mt-3" }))
 {
-    <div class="text-end mb-3">
-        <a href="@Url.Action("Create", "Salons")" class="btn btn-primary">Add your salon to ProjectX</a>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="searchQuery" placeholder="Search by Name or City" value="@ViewBag.SearchQuery">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit" style="margin-left: 10px;">Search</button>
+                </div>
+            </div>
+        </div>
     </div>
 }
 
 <div class="row">
-    @foreach (var salon in Model)
+    @foreach (var salon in Model.Salons)
     {
-        <div class="col-md-3 mb-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
-                <!-- Add image -->
                 <img src="@salon.ProfilePictureUrl" class="card-img-top" alt="Salon Profile Picture">
                 <div class="card-body">
                     <h5 class="card-title">@salon.Name</h5>
                     <p class="card-text">@salon.Description</p>
-                    <p class="card-text">Location:  @salon.City, @salon.Address</p>
+                    <p class="card-text">Location: @salon.City, @salon.Address</p>
                     <a asp-controller="SalonProfile" asp-action="Index" asp-route-id="@salon.Id" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>
     }
 </div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        @if (Model.PaginationInfo.TotalPages > 1)
+        {
+            <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = 1 })">First</a>
+            </li>
+            <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PaginationInfo.CurrentPage - 1 })">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.PaginationInfo.TotalPages; i++)
+            {
+                <li class="page-item @(Model.PaginationInfo.CurrentPage == i ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PaginationInfo.CurrentPage + 1 })">Next</a>
+            </li>
+            <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PaginationInfo.TotalPages })">Last</a>
+            </li>
+        }
+    </ul>
+</nav>
