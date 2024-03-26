@@ -14,7 +14,7 @@ namespace ProjectX.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ImageUploader _imageUploader;
 
-        private const int PageSize = 3; // 2 rows * 3 salons per row
+        private const int PageSize = 6; // 2 rows * 3 salons per row
 
         public SalonsController(ISalonService salonService, UserManager<User> userManager, ImageUploader imageUploader)
         {
