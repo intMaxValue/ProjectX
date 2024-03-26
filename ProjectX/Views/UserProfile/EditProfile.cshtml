@@ -2,7 +2,7 @@
 @model ProjectX.ViewModels.Profile.CompleteProfileViewModel
 
 <div class="row">
-    <form asp-controller="UserProfile" asp-action="CompleteProfile" method="post" enctype="multipart/form-data">
+    <form id="editProfileForm" asp-controller="UserProfile" asp-action="EditProfile" method="post" enctype="multipart/form-data">
         <div class="form-group mt-2 col-md-4">
             <label for="FirstName">First Name</label>
             <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required>
@@ -25,8 +25,9 @@
         </div>
         <div class="col-md-4 text-md-right">
             <!-- Right align the button for medium screens and above -->
-            <a href="@Url.Action("Index", "UserProfile",  new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" class="btn btn-secondary mt-2 mb-2 ml-2">Back to Profile</a>
-            <button type="submit" class="btn btn-primary mt-2 mb-2 float-end">Edit Profile</button>
+            <a asp-controller="UserProfile" asp-action="Index" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-secondary mt-2 mb-2 ml-2">Back to Profile</a>
+            <button type="submit" form="editProfileForm" class="btn btn-primary mt-2 mb-2 float-end">Edit Profile</button>
         </div>
+
     </form>
 </div>

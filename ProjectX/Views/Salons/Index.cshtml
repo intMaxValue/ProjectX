@@ -6,18 +6,18 @@
 @using (Html.BeginForm("Index", "Salons", FormMethod.Get, new { @class = "form-inline mt-3" }))
 {
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" name="searchQuery" placeholder="Search by Name or City" value="@ViewBag.SearchQuery">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit" style="margin-left: 10px;">Search</button>
+                    <button class="btn btn-primary col-md-12" type="submit" style="margin-left: 10px;">Search</button>
                 </div>
             </div>
         </div>
+        <a asp-controller="Salons" asp-action="Create" class="btn btn-success mt-auto mb-3 col-md-2" style="margin-left: auto; margin-right: 14px;">Add your Salon to ProjectX</a>
     </div>
 }
 
-<a asp-controller="Salons" asp-action="Create" class="btn btn-primary mt-auto mb-3">Add your Salon to ProjectX</a>
 
 <div class="row">
     @foreach (var salon in Model.Salons)
