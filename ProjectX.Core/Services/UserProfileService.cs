@@ -48,14 +48,17 @@ namespace ProjectX.Core.Services
             currentUser.PhoneNumber = model.PhoneNumber;
             currentUser.City = model.City;
 
-            if (profilePicture != null)
+            if (profilePicture == null)
             {
-                string profilePictureUrl = await _imageUploader.UploadImageAsync(profilePicture);
-                currentUser.ProfilePicture = profilePictureUrl;
+                throw new ArgumentException("Profile picture is required.");
             }
+
+            string profilePictureUrl = await _imageUploader.UploadImageAsync(profilePicture);
+            currentUser.ProfilePicture = profilePictureUrl;
 
             var result = await _userManager.UpdateAsync(currentUser);
             return result.Succeeded;
         }
+
     }
 }

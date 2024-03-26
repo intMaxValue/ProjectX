@@ -21,13 +21,16 @@
         </div>
         <div class="form-group mt-2 col-md-4 text-center">
             <label for="ProfilePicture">Profile Picture</label>
-            <input type="file" class="form-control-file" id="ProfilePicture" name="ProfilePicture">
+            <input type="file" class="form-control-file" id="ProfilePicture" name="ProfilePicture" required="true">
         </div>
         <div class="col-md-4 text-md-right">
-            <!-- Right align the button for medium screens and above -->
             <a asp-controller="UserProfile" asp-action="Index" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-secondary mt-2 mb-2 ml-2">Back to Profile</a>
             <button type="submit" form="editProfileForm" class="btn btn-primary mt-2 mb-2 float-end">Edit Profile</button>
         </div>
 
     </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
