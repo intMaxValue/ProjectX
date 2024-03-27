@@ -30,7 +30,7 @@
                     <p class="card-text">@salon.Description</p>
                     <p class="card-text">Location: @salon.City, @salon.Address</p>
                     <div class="mt-auto">
-                        <a asp-controller="SalonProfile" asp-action="Index" asp-route-id="@salon.Id" class="btn btn-primary mt-auto">View Details</a>
+                        <a asp-controller="Salons" asp-action="Details" asp-route-id="@salon.Id" class="btn btn-primary mt-auto">View Details</a>
                     </div>
                 </div>
             </div>

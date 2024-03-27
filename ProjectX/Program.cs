@@ -44,7 +44,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "SalonProfile",
-        pattern: "SalonProfile/Details/{id:int}", 
+        pattern: "SalonProfile/{id:int}", 
         defaults: new { controller = "SalonProfile", action = "Index" }
     );
     endpoints.MapControllerRoute(
