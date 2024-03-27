@@ -99,5 +99,29 @@ namespace ProjectX.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var salon = await _salonService.GetSalonByIdAsync(id);
+            if (salon == null)
+            {
+                return NotFound();
+            }
+
+            var model = new SalonViewModel()
+            {
+                Id = salon.Id,
+                Name = salon.Name,
+                City = salon.City,
+                Address = salon.Address,
+                Description = salon.Description,
+                MapUrl = salon.MapUrl,
+                PhoneNumber = salon.PhoneNumber,
+                ProfilePictureUrl = salon.ProfilePictureUrl,
+            };
+
+            return View(model);
+        }
     }
 }
