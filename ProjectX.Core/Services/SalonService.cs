@@ -23,8 +23,21 @@ namespace ProjectX.Core.Services
                 .Include(s => s.Availabilities)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
-            return salon == null ? throw new Exception("Salon not found") : salon;
+            return salon ?? throw new Exception("Salon not found");
         }
+
+        public async Task<IEnumerable<Salon?>> GetAllSalonsByOwnerIdAsync(string ownerId)
+        {
+            // Retrieve all salons owned by the specified ownerId
+            return await _context.Salons
+                .Where(s => s.OwnerId == ownerId)
+                .Include(s => s.Photos)
+                .Include(s => s.Reviews)
+                .Include(s => s.Appointments)
+                .Include(s => s.Availabilities)
+                .ToListAsync();
+        }
+
 
         public async Task<IEnumerable<Salon>> GetPaginatedSalonsAsync(string searchQuery, int page, int pageSize)
         {
