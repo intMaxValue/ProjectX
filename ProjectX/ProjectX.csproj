@@ -27,8 +27,4 @@
     <ProjectReference Include="..\ProjectX.ViewModels\ProjectX.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\MySalon\" />
-  </ItemGroup>
-
 </Project>

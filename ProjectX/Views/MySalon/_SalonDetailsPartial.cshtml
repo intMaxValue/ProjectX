@@ -1,0 +1,40 @@
+﻿@model ProjectX.ViewModels.Salon.MySalonViewModel
+
+<!-- Salon Details -->
+<div class="card mt-4">
+    <img src="@Model.ProfilePictureUrl" class="card-img-top" alt="Salon Profile Picture">
+    <div class="card-body">
+        <h2 class="card-title">@Model.SalonName</h2>
+        <h4>@Model.City, @Model.Address</h4>
+        <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+        <p>@Model.Description</p>
+
+        <!-- Google Maps iframe -->
+        @if (!string.IsNullOrEmpty(Model.MapUrl))
+        {
+            <div class="mt-4">
+                <!-- Embed Google Maps in an iframe -->
+                @Html.Raw(Model.MapUrl)
+            </div>
+        }
+
+
+
+        <!-- Photo Gallery -->
+        <h4>Photos</h4>
+        <div class="row">
+            @foreach (var photoUrl in Model.PhotoUrls)
+            {
+                <div class="col-md-4 mb-3">
+                    <img src="@photoUrl" class="img-fluid" alt="Salon Photo">
+                </div>
+            }
+        </div>
+
+        <!-- Edit and Delete Buttons -->
+        <div class="mt-4">
+            <a href="#" class="btn btn-primary mr-2">Edit Salon</a>
+            <button type="button" class="btn btn-danger">Delete Salon</button>
+        </div>
+    </div>
+</div>

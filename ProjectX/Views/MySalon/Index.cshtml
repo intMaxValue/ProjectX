@@ -1,0 +1,88 @@
+﻿@model ProjectX.ViewModels.Salon.MySalonViewModel
+@{
+    ViewData["Title"] = "My Salon";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- List of Salons -->
+            <div id="salonList" class="salon-list d-flex justify-content-start">
+                <h2>Your Salons:</h2>
+                <ul class="list-inline ml-3">
+                    @foreach (var salon in ViewBag.SalonList as List<ProjectX.ViewModels.Salon.MySalonViewModel>)
+                    {
+                        <li class="list-inline-item">
+                            <a href="#" class="btn btn-primary salon-link" data-id="@salon.SalonId" style="font-size: 18px; margin-left:10px;">@salon.SalonName</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <!-- Salon Details -->
+            <div id="salonDetails" class="card mt-4">
+                <img src="@Model.ProfilePictureUrl" class="card-img-top" alt="Salon Profile Picture">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.SalonName</h2>
+                    <h4>@Model.City, @Model.Address</h4>
+                    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                    <p>@Model.Description</p>
+
+                    <!-- Google Maps iframe -->
+                    @if (!string.IsNullOrEmpty(Model.MapUrl))
+                    {
+                        <div class="mt-4">
+                            <!-- Embed Google Maps in an iframe -->
+                            @Html.Raw(Model.MapUrl)
+                        </div>
+                    }
+
+                    <!-- Photo Gallery -->
+                    <h4>Photos</h4>
+                    <div class="row">
+                        @foreach (var photoUrl in Model.PhotoUrls)
+                        {
+                            <div class="col-md-4 mb-3">
+                                <img src="@photoUrl" class="img-fluid" alt="Salon Photo">
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Edit and Delete Buttons -->
+                    <div class="mt-4">
+                        <a href="#" class="btn btn-primary mr-2">Edit Salon</a>
+                        <button type="button" class="btn btn-danger">Delete Salon</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Event handler for salon links
+            $('.salon-link').click(function (e) {
+                e.preventDefault(); // Prevent the default action (i.e., navigating to the link)
+
+                var salonId = $(this).data('id'); // Get the salon ID from the data-id attribute
+
+                // Make an AJAX request to fetch the details of the selected salon
+                $.ajax({
+                    url: '/MySalon/GetSalonDetails',
+                    type: 'GET',
+                    data: { id: salonId },
+                    success: function (response) {
+                        // Replace the content of the salon details section with the response
+                        $('#salonDetails').html(response);
+                    },
+                    error: function () {
+                        console.error('Error occurred while fetching salon details.');
+                    }
+                });
+            });
+        });
+    </script>
+}
