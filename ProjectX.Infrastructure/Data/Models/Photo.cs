@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectX.Infrastructure.Data.Models
 {
@@ -6,6 +7,8 @@ namespace ProjectX.Infrastructure.Data.Models
     {
         public int Id { get; set; }
         public string Url { get; set; } = string.Empty; // This could be a URL or file path
+        public string Caption { get; set; } = string.Empty;
+        public DateTime DateUploaded { get; set; }
 
         [ForeignKey(nameof(Salon))]
         public int? SalonId { get; set; } // Foreign key to Salon

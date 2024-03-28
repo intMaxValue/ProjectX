@@ -26,7 +26,11 @@ namespace ProjectX.Extensions
                 options.LoginPath = "/Identity/Account/Login"; // Setting the correct login path
             });
 
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            using var serviceProvider = services.BuildServiceProvider();
+            SeedRoles(serviceProvider).Wait();
 
             return services;
         }
@@ -49,6 +53,25 @@ namespace ProjectX.Extensions
 
             services.AddRazorPages();
             return services;
+        }
+
+        public static async Task SeedRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Define roles
+            string[] roleNames = { "Admin", "User", "SalonOwner" };
+
+            foreach (var roleName in roleNames)
+            {
+                // Check if the role doesn't exist
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    // Create the role
+                    var role = new IdentityRole(roleName);
+                    await roleManager.CreateAsync(role);
+                }
+            }
         }
     }
 }
