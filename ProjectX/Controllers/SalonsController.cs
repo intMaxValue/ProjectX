@@ -88,7 +88,10 @@ namespace ProjectX.Controllers
                     model.ProfilePictureUrl = profilePictureUrl;
 
                     await _salonService.CreateSalonAsync(model, userId);
-                    return RedirectToAction("Index");
+
+                    await _userManager.AddToRoleAsync(currentUser, "SalonOwner");
+
+                    return RedirectToAction("Index", "MySalon");
                 }
                 catch (Exception)
                 {
