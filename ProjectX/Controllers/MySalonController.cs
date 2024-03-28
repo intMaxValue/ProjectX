@@ -1,18 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ProjectX.Core.Contracts;
+using ProjectX.Core.Services;
 using ProjectX.ViewModels.Salon;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using ProjectX.Infrastructure.Data.Models;
 
 namespace ProjectX.Controllers
 {
     public class MySalonController : Controller
     {
         private readonly ISalonService _salonService;
+        private readonly ImageUploader _imageUploader;
+        private readonly UserManager<User> _userManager;
 
-        public MySalonController(ISalonService salonService)
+        public MySalonController(ISalonService salonService, ImageUploader imageUploader, UserManager<User> userManager)
         {
             _salonService = salonService;
+            _imageUploader = imageUploader;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -39,7 +45,13 @@ namespace ProjectX.Controllers
                 Description = s.Description,
                 MapUrl = s.MapUrl,
                 ProfilePictureUrl = s.ProfilePictureUrl,
-                PhotoUrls = s.Photos.Select(p => p.Url)
+                Photos = s.Photos.Select(p => new PhotoViewModel
+                {
+                    Id = p.Id,
+                    Url = p.Url,
+                    Caption = p.Caption,
+                    DateUploaded = p.DateUploaded
+                }).ToList()
             }).ToList();
 
             // Pass the list of all salons to the view
@@ -76,11 +88,51 @@ namespace ProjectX.Controllers
                 Description = salon.Description,
                 MapUrl = salon.MapUrl,
                 ProfilePictureUrl = salon.ProfilePictureUrl,
-                PhotoUrls = salon.Photos.Select(p => p.Url)
+                Photos = salon.Photos.Select(p => new PhotoViewModel
+                {
+                    Id = p.Id,
+                    Url = p.Url,
+                    Caption = p.Caption,
+                    DateUploaded = p.DateUploaded
+                }).ToList()
             };
 
             // Return a partial view with the salon details
             return PartialView("_SalonDetailsPartial", viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPhoto(int salonId, IFormFile photo, string caption)
+        {
+            // Retrieve the current user
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            string userId = currentUser.Id;
+
+            // Check if the current user is the owner of the salon
+            var salon = await _salonService.GetSalonByIdAsync(salonId);
+            if (salon.OwnerId != userId)
+            {
+                // Return unauthorized if the user is not the owner of the salon
+                return Unauthorized();
+            }
+
+            try
+            {
+                // Upload photo
+                string photoUrl = await _imageUploader.UploadImageAsync(photo);
+
+                // Add photo to the salon
+                await _salonService.AddPhotoToSalonAsync(salonId, photoUrl, userId, caption);
+
+                // Redirect back to the salon profile page
+                return RedirectToAction("Index", "MySalon");
+            }
+            catch (Exception)
+            {
+                // Handle errors appropriately
+                ModelState.AddModelError("", "An error occurred while adding the photo to the salon.");
+                return RedirectToAction("Index", "MySalon");
+            }
         }
 
     }
