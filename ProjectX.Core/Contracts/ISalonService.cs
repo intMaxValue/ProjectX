@@ -13,5 +13,6 @@ namespace ProjectX.Core.Contracts
         Task DeleteSalonAsync(int id);
         Task<IEnumerable<Salon>> GetPaginatedSalonsAsync(string searchQuery, int page, int pageSize);
         Task<int> GetAllSalonsCountAsync(string searchQuery);
+        Task AddPhotoToSalonAsync(int salonId, string photoUrl, string userId, string caption);
     }
 }
