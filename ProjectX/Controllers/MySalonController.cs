@@ -4,7 +4,7 @@ using ProjectX.Core.Contracts;
 using ProjectX.Core.Services;
 using ProjectX.ViewModels.Salon;
 using System.Security.Claims;
-using ProjectX.Infrastructure.Data.Models;
+using User = ProjectX.Infrastructure.Data.Models.User;
 
 namespace ProjectX.Controllers
 {
@@ -201,6 +201,12 @@ namespace ProjectX.Controllers
             existingSalon.PhoneNumber = viewModel.PhoneNumber;
             existingSalon.Description = viewModel.Description;
             existingSalon.MapUrl = viewModel.MapUrl;
+
+            if (viewModel.NewProfilePicture != null)
+            {
+                string newProfilePictureUrl = await _imageUploader.UploadImageAsync(viewModel.NewProfilePicture);
+                existingSalon.ProfilePictureUrl = newProfilePictureUrl;
+            }
 
             // Update the salon in the database
             await _salonService.UpdateSalonAsync(existingSalon);
