@@ -53,3 +53,7 @@ body {
     background-color: #fff; /* White background on hover */
     color: #000; /* Black text color on hover */
 }
+
+.salon-photo {
+    cursor: pointer;
+}
