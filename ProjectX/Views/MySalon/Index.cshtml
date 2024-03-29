@@ -13,7 +13,7 @@
                     @foreach (var salon in ViewBag.SalonList as List<ProjectX.ViewModels.Salon.MySalonViewModel>)
                     {
                         <li class="list-inline-item">
-                            <a href="#" class="btn btn-primary salon-link" data-id="@salon.SalonId" style="font-size: 18px; margin-left:10px;">@salon.SalonName</a>
+                            <a href="@Url.Action("Index", "MySalon", new { salonId = salon.SalonId })" class="btn btn-primary salon-link" style="font-size: 18px; margin-left:10px;">@salon.SalonName</a>
                         </li>
                     }
                 </ul>
@@ -37,16 +37,11 @@
                             @Html.Raw(Model.MapUrl)
                         </div>
                     }
-                    
+
                     <hr />
                     <!-- Photo Gallery -->
+                    <h4>Photos</h4>
                     <div class="row mt-3 mb-3">
-                        <h4 class="col-md-6">Gallery</h4>
-                        <div class="col-md-6 d-flex justify-content-end align-items-center">
-                            <button id="addPhotoButton" class="btn btn-primary">Add Photo</button>
-                        </div>
-                    </div>
-                    <div class="row photo-container">
                         @foreach (var photo in Model.Photos)
                         {
                             <div class="col-md-4 mb-3">
@@ -58,28 +53,12 @@
                         }
                     </div>
 
-
-                    <!-- Modal for displaying larger photo -->
-                    @foreach (var photo in Model.Photos)
-                    {
-                        <div class="modal fade" id="photoModal-@photo.Id" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="photoModalLabel">@photo.Caption</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body text-center">
-                                        <img src="@photo.Url" class="img-fluid salon-photo" alt="@photo.Caption">
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Add Photo Button -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button id="addPhotoButton" class="btn btn-primary">Add Photos</button>
                         </div>
-                    }
-
-
+                    </div>
 
                     <!-- Edit and Delete Buttons -->
                     <div class="mt-4">
@@ -104,17 +83,17 @@
             </div>
             <div class="modal-body">
                 <!-- Form for adding photo -->
-                <form id="addPhotoForm" enctype="multipart/form-data" method="post">
+                <form id="addPhotoForm" enctype="multipart/form-data" action="@Url.Action("AddPhoto", "MySalon")" method="post">
                     <div class="form-group">
                         <label for="photoFile">Photo:</label>
-                        <input type="file" class="form-control-file" id="photoFile" name="photo">
+                        <input type="file" class="form-control-file" id="photoFile" name="photo" accept="image/*" required>
                     </div>
                     <div class="form-group">
-                        <label for="photoCaption">Caption:</label>
-                        <input type="text" class="form-control" id="photoCaption" name="caption">
+                        <label for="caption">Caption:</label>
+                        <input type="text" class="form-control" id="caption" name="caption" required>
                     </div>
                     <input type="hidden" name="salonId" id="salonId" value="@Model.SalonId">
-                    <button type="submit" class="btn btn-primary mt-3">Add Photo</button>
+                    <button type="submit" class="btn btn-primary">Add Photo</button>
                 </form>
             </div>
         </div>
@@ -125,25 +104,10 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Event handler for salon links
-            $('.salon-link').click(function (e) {
-                e.preventDefault(); // Prevent the default action (i.e., navigating to the link)
-
-                var salonId = $(this).data('id'); // Get the salon ID from the data-id attribute
-
-                // Make an AJAX request to fetch the details of the selected salon
-                $.ajax({
-                    url: '/MySalon/GetSalonDetails',
-                    type: 'GET',
-                    data: { id: salonId },
-                    success: function (response) {
-                        // Replace the content of the salon details section with the response
-                        $('#salonDetails').html(response);
-                    },
-                    error: function () {
-                        console.error('Error occurred while fetching salon details.');
-                    }
-                });
+            // Event handler for Add Photos button
+            $('#addPhotoButton').click(function () {
+                // Show the add photo modal here
+                $('#addPhotoModal').modal('show');
             });
 
             // Event handler for Add Photo form submission
@@ -178,12 +142,6 @@
                 $('#photoModal-' + photoId + ' .modal-body img').attr('src', photoUrl);
                 $('#photoModal-' + photoId + ' .modal-title').text(photoCaption);
                 $('#photoModal-' + photoId).modal('show');
-            });
-
-            // Event handler for Add Photos button
-            $('#addPhotoButton').click(function () {
-                // Show the add photo modal here
-                $('#addPhotoModal').modal('show');
             });
         });
     </script>

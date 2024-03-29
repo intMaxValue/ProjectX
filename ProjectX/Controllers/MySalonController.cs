@@ -21,7 +21,7 @@ namespace ProjectX.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int salonId)
         {
             // Retrieve salons owned by the current user
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -34,35 +34,46 @@ namespace ProjectX.Controllers
                 return View("NoSalonsFound");
             }
 
-            // Project the salons to the MySalonViewModel
-            var mySalonViewModels = salons.Select(s => new MySalonViewModel
+            // If no specific salon ID is provided or if the provided ID is invalid, 
+            // render the first salon by default
+            var selectedSalon = salons.FirstOrDefault(s => s.Id == salonId);
+            if (selectedSalon == null)
             {
-                SalonId = s.Id,
-                SalonName = s.Name,
-                City = s.City,
-                Address = s.Address,
-                PhoneNumber = s.PhoneNumber,
-                Description = s.Description,
-                MapUrl = s.MapUrl,
-                ProfilePictureUrl = s.ProfilePictureUrl,
-                Photos = s.Photos.Select(p => new PhotoViewModel
+                selectedSalon = salons.First(); // Render the first salon if no matching salon is found
+            }
+
+            // Project the selected salon to the MySalonViewModel
+            var mySalonViewModel = new MySalonViewModel
+            {
+                SalonId = selectedSalon.Id,
+                SalonName = selectedSalon.Name,
+                City = selectedSalon.City,
+                Address = selectedSalon.Address,
+                PhoneNumber = selectedSalon.PhoneNumber,
+                Description = selectedSalon.Description,
+                MapUrl = selectedSalon.MapUrl,
+                ProfilePictureUrl = selectedSalon.ProfilePictureUrl,
+                Photos = selectedSalon.Photos.Select(p => new PhotoViewModel
                 {
                     Id = p.Id,
                     Url = p.Url,
                     Caption = p.Caption,
                     DateUploaded = p.DateUploaded
                 }).ToList()
+            };
+
+            // Pass the list of all salons and the selected salon to the view
+            ViewBag.SalonList = salons.Select(s => new MySalonViewModel
+            {
+                SalonId = s.Id,
+                SalonName = s.Name
             }).ToList();
 
-            // Pass the list of all salons to the view
-            ViewBag.SalonList = mySalonViewModels;
-
-            // Render the first salon by default
-            var firstSalon = mySalonViewModels.FirstOrDefault();
-
-            // Pass the first salon to the view
-            return View(firstSalon);
+            // Pass the selected salon to the view
+            return View(mySalonViewModel);
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> GetSalonDetails(int id)
@@ -125,15 +136,16 @@ namespace ProjectX.Controllers
                 await _salonService.AddPhotoToSalonAsync(salonId, photoUrl, userId, caption);
 
                 // Redirect back to the salon profile page
-                return RedirectToAction("Index", "MySalon");
+                return RedirectToAction("Index", "MySalon", new { salonId = salonId });
             }
             catch (Exception)
             {
                 // Handle errors appropriately
                 ModelState.AddModelError("", "An error occurred while adding the photo to the salon.");
-                return RedirectToAction("Index", "MySalon");
+                return RedirectToAction("Index", "MySalon", new { salonId = salonId });
             }
         }
+
 
     }
 }

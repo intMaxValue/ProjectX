@@ -54,18 +54,21 @@
             </div>
             <div class="modal-body">
                 <!-- Form for adding photo -->
-                <form id="addPhotoForm" enctype="multipart/form-data">
+                <form id="addPhotoForm" enctype="multipart/form-data" action="@Url.Action("AddPhoto", "MySalon")" method="post">
                     <div class="form-group">
                         <label for="photoFile">Photo:</label>
-                        <input type="file" class="form-control-file" id="photoFile" name="photoFile">
+                        <input type="file" class="form-control-file" id="photoFile" name="photo" accept="image/*" required>
                     </div>
                     <div class="form-group">
-                        <label for="photoCaption">Caption:</label>
-                        <input type="text" class="form-control" id="photoCaption" name="photoCaption">
+                        <label for="caption">Caption:</label>
+                        <input type="text" class="form-control" id="caption" name="caption" required>
                     </div>
+                    <input type="hidden" name="salonId" id="salonId" value="@Model.SalonId">
                     <button type="submit" class="btn btn-primary">Add Photo</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+
