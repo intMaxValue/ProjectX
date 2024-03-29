@@ -30,8 +30,7 @@ namespace ProjectX.Controllers
             // Check if salons are found for the current user
             if (salons == null || !salons.Any())
             {
-                // If no salons are found, return a view indicating that the user has no salons
-                return View("NoSalonsFound");
+                return BadRequest();
             }
 
             // If no specific salon ID is provided or if the provided ID is invalid, 
@@ -146,6 +145,69 @@ namespace ProjectX.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditSalon(int id)
+        {
+            // Get the salon details by ID
+            var salon = await _salonService.GetSalonByIdAsync(id);
+
+            // Check if the salon exists
+            if (salon == null)
+            {
+                // If the salon does not exist, return a not found response
+                return NotFound();
+            }
+
+            // Map the salon to the CreateSalonViewModel
+            var viewModel = new CreateSalonViewModel
+            {
+                Name = salon.Name,
+                City = salon.City,
+                Address = salon.Address,
+                PhoneNumber = salon.PhoneNumber,
+                Description = salon.Description,
+                MapUrl = salon.MapUrl,
+                OwnerId = salon.OwnerId,
+                ProfilePictureUrl = salon.ProfilePictureUrl
+            };
+
+            // Return the view with the populated ViewModel
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditSalon(int id, CreateSalonViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                // If the model state is not valid, return the form with validation errors
+                return View(viewModel);
+            }
+
+            // Get the existing salon by ID
+            var existingSalon = await _salonService.GetSalonByIdAsync(id);
+
+            // Check if the salon exists
+            if (existingSalon == null)
+            {
+                // If the salon does not exist, return a not found response
+                return NotFound();
+            }
+
+            // Update the salon properties with the values from the ViewModel
+            existingSalon.Name = viewModel.Name;
+            existingSalon.City = viewModel.City;
+            existingSalon.Address = viewModel.Address;
+            existingSalon.PhoneNumber = viewModel.PhoneNumber;
+            existingSalon.Description = viewModel.Description;
+            existingSalon.MapUrl = viewModel.MapUrl;
+
+            // Update the salon in the database
+            await _salonService.UpdateSalonAsync(existingSalon);
+
+            // Redirect to the salon details page
+            return RedirectToAction("Index", new { salonId = id });
+        }
 
     }
 }
