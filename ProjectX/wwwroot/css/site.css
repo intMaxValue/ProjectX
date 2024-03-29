@@ -57,3 +57,12 @@ body {
 .salon-photo {
     cursor: pointer;
 }
+
+/*Edit Salon*/
+.container {
+    margin-top: 50px; /* Adjust as needed to center the form vertically */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Adjust as needed to tighten the spacing between form groups */
+}
