@@ -1,4 +1,5 @@
-﻿using ProjectX.Infrastructure.Constants;
+﻿using Microsoft.AspNetCore.Http;
+using ProjectX.Infrastructure.Constants;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectX.ViewModels.Salon
@@ -26,5 +27,6 @@ namespace ProjectX.ViewModels.Salon
         public string MapUrl { get; set; } = string.Empty;
         public string OwnerId { get; set; } = string.Empty;
         public string ProfilePictureUrl { get; set; } = string.Empty;
+        public IFormFile? NewProfilePicture { get; set; }
     }
 }
