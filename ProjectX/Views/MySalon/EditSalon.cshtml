@@ -1,37 +1,64 @@
 ﻿@model ProjectX.ViewModels.Salon.CreateSalonViewModel
 
-<h2>Edit Salon</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center">Edit Salon: @Model.Name</h2>
 
-<form asp-action="EditSalon" method="post">
-    <div class="form-group">
-        <label asp-for="Name">Salon Name</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="text-center mb-3">
+                @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                {
+                    <div>
+                        <label>Current Profile Picture:</label><br />
+                        <img src="@Model.ProfilePictureUrl" alt="Current Profile Picture" style="max-width: 400px; max-height: 400px; margin-bottom: 10px;" />
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label for="newProfilePicture">Change Picture</label>
+                    <input type="file" class="form-control-file" id="newProfilePicture" name="NewProfilePicture">
+                </div>
+            </div>
+
+            <form asp-action="EditSalon" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name">Salon Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address">Address</label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City">City</label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MapUrl">Embedded Map URL</label>
+                    <input asp-for="MapUrl" class="form-control" />
+                    <span asp-validation-for="MapUrl" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Address">Address</label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="City">City</label>
-        <input asp-for="City" class="form-control" />
-        <span asp-validation-for="City" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PhoneNumber">Phone Number</label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description">Description</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="MapUrl">Embedded Map URL</label>
-        <input asp-for="MapUrl" class="form-control" />
-        <span asp-validation-for="MapUrl" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
