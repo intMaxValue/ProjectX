@@ -121,6 +121,31 @@ namespace ProjectX.Core.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateSalonAsync(Salon salon)
+        {
+            // Retrieve the existing salon from the database
+            var existingSalon = await _context.Salons.FindAsync(salon.Id);
+
+            // Check if the salon exists
+            if (existingSalon == null)
+            {
+                throw new ArgumentException("Salon not found", nameof(salon.Id));
+            }
+
+            // Update the properties of the existing salon with the new values
+            existingSalon.Name = salon.Name;
+            existingSalon.City = salon.City;
+            existingSalon.Address = salon.Address;
+            existingSalon.Description = salon.Description;
+            existingSalon.PhoneNumber = salon.PhoneNumber;
+            existingSalon.MapUrl = salon.MapUrl;
+            existingSalon.ProfilePictureUrl = salon.ProfilePictureUrl;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+        }
+
+
         public async Task DeleteSalonAsync(int id)
         {
             var salon = await _context.Salons.FindAsync(id);
