@@ -66,3 +66,65 @@ body {
 .form-group {
     margin-bottom: 20px; /* Adjust as needed to tighten the spacing between form groups */
 }
+
+/*Stripe stop Cities*/
+.custom-info-box {
+    display: flex; /* Enable Flexbox */
+    justify-content: space-between; /* Align items to start and end of the container */
+    align-items: center; /* Center items vertically */
+    flex-wrap: wrap; /* Allow items to wrap */
+    background-color: #a5c2ff;
+    border-color: #f5c6cb;
+    color: #000;
+    font-size: 19px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+
+.badge-custom {
+    background-color: #e8c2ff; /* Change the background color of the badges */
+    color: #5f70fb; /* Change the text color of the badges */
+    font-size: 19px; /* Change the font size of the badges */
+    margin-right: 15px; /* Adjust the spacing between badges */
+    margin-left: 10px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition effect for background color and box shadow */
+    box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.2); /* Add shadow on the bottom and right side */
+}
+
+.badge-custom:hover {
+    background-color: #9047ff; /* Change background color on hover */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    color: #fff;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15); /* Make the shadow smaller on hover */
+}
+
+.show-all {
+    align-self: end;
+}
+
+
+.btn-primary {
+    background-color: #a5c2ff;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition effect for background color and box shadow */
+    box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.2);
+    border-color: #729fff;
+    margin: 10px;
+}
+.btn-primary:hover {
+    background-color: #9047ff;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+    border-color: #7418ff; /* Change border color on hover */
+}
+
+.btn-success {
+    
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition effect for background color and box shadow */
+    box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.2);
+}
+.btn-success:hover {
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+        
+}
