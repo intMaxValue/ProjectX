@@ -2,7 +2,6 @@
 
 <h1 class="mt-4 mb-3">Salons</h1>
 
-
 @using (Html.BeginForm("Index", "Salons", FormMethod.Get, new { @class = "form-inline mt-3" }))
 {
     <div class="row">
@@ -18,6 +17,21 @@
     </div>
 }
 
+<!-- Top 5 Cities Stripe -->
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="custom-info-box">
+            <div>
+                <strong style="margin: 10px;">Top 5 Cities with Salons:</strong>
+                @foreach (var city in Model.TopCities)
+                {
+                    <a href="@Url.Action("Index", new { searchQuery = city })" class="badge badge-custom">@city</a>
+                }
+            </div>
+            <a href="@Url.Action("Index")" class="badge badge-custom show-all">Show All</a>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     @foreach (var salon in Model.Salons)
@@ -37,7 +51,6 @@
         </div>
     }
 </div>
-
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
@@ -64,4 +77,3 @@
         }
     </ul>
 </nav>
-
