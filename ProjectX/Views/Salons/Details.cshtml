@@ -13,7 +13,7 @@
                     <h3>Details:</h3>
                     <p class="card-text"><b>Location:</b> @Model.City, @Model.Address</p>
                     <p class="card-text"><b>Phone number:</b> @Model.PhoneNumber</p>
-                    <p class="card-text"><b>About us:</b> <br/>@Model.Description</p>
+                    <p class="card-text"><b>About us:</b> <br />@Model.Description</p>
 
                     <!-- Check if MapUrl is not null or empty -->
                     @if (!string.IsNullOrEmpty(Model.MapUrl))
@@ -24,12 +24,106 @@
                         </div>
                     }
 
-                    <div class="text-center mt-4">
-                        <a href="#" class="btn btn-primary mr-2">Book Appointment</a>
-                        <a href="#" class="btn btn-secondary">Contact Salon</a>
-                    </div>
+                    <!-- Photo Gallery -->
+                    @if (Model.Photos.Any())
+                    {
+                        <h4>Photos</h4>
+                        <div class="row mt-3 mb-3">
+                            @foreach (var photo in Model.Photos)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <img src="@photo.Url" class="img-fluid salon-photo" alt="@photo.Caption" data-caption="@photo.Caption" data-toggle="modal" data-target="#imageModal">
+                                    <p class="photo-caption">@photo.Caption</p>
+                                </div>
+                            }
+                        </div>
+                    }  
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Image Caption</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" id="modalImage" class="img-fluid" alt="Responsive image">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Event handler for Add Photos button
+            $('#addPhotoButton').click(function () {
+                // Show the add photo modal here
+                $('#addPhotoModal').modal('show');
+            });
+
+            // Event handler for Add Photo form submission
+            $('#addPhotoForm').submit(function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: '/MySalon/AddPhoto',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        // Reload the page to show the new photo
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error
+                        console.error('Error: ' + error);
+                    }
+                });
+            });
+
+            // Event handler for clicking on a photo to display larger version
+            $(document).on('click', '.salon-photo', function () {
+                var photoUrl = $(this).attr('src');
+                var photoCaption = $(this).closest('.photo-wrapper').find('.photo-caption').text();
+                var photoId = $(this).data('target').split('-')[1]; // Assuming the data-target attribute is like "#photoModal-1"
+
+                $('#photoModal-' + photoId + ' .modal-body img').attr('src', photoUrl);
+                $('#photoModal-' + photoId + ' .modal-title').text(photoCaption);
+                $('#photoModal-' + photoId).modal('show');
+
+                // Attach a click event handler to the close button (X) at the top of the modal
+                $('.modal').on('click', '.close', function () {
+                    $(this).closest('.modal').modal('hide'); // Hide the modal when the close button is clicked
+                });
+            });
+
+            // Event handler for clicking on a photo to display larger version in the second view
+            $(document).on('click', '.salon-photo', function () {
+                var imageSrc = $(this).attr('src');
+                var imageCaption = $(this).data('caption');
+
+                // Set the src for the image in the modal
+                $('#modalImage').attr('src', imageSrc);
+
+                // Set the caption for the modal
+                $('#imageModalLabel').text(imageCaption);
+
+                // Show the modal
+                $('#imageModal').modal('show');
+            });
+        });
+    </script>
+}
+
