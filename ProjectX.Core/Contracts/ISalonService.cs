@@ -15,5 +15,6 @@ namespace ProjectX.Core.Contracts
         Task<int> GetAllSalonsCountAsync(string searchQuery);
         Task AddPhotoToSalonAsync(int salonId, string photoUrl, string userId, string caption);
         Task UpdateSalonAsync(Salon salon);
+        Task<IEnumerable<string>> GetTopCitiesAsync(int count);
     }
 }

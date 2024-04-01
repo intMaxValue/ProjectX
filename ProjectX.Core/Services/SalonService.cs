@@ -121,6 +121,16 @@ namespace ProjectX.Core.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<string>> GetTopCitiesAsync(int count)
+        {
+            return await _context.Salons
+                .GroupBy(s => s.City)
+                .OrderByDescending(g => g.Count())
+                .Select(g => g.Key)
+                .Take(count)
+                .ToListAsync();
+        }
+
         public async Task UpdateSalonAsync(Salon salon)
         {
             // Retrieve the existing salon from the database
