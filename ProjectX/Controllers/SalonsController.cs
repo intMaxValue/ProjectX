@@ -36,6 +36,9 @@ namespace ProjectX.Controllers
             // Calculate total pages
             var totalPages = (int)Math.Ceiling((double)totalSalons / PageSize);
 
+            // Retrieve top 5 cities with salons
+            var topCities = await _salonService.GetTopCitiesAsync(5);
+
             var model = new SalonIndexViewModel
             {
                 Salons = paginatedSalons.Select(s => new SalonViewModel
@@ -55,7 +58,8 @@ namespace ProjectX.Controllers
                     ItemsPerPage = PageSize,
                     TotalItems = totalSalons,
                     TotalPages = totalPages
-                }
+                },
+                TopCities = topCities
             };
 
             return View(model);
