@@ -5,7 +5,6 @@ namespace ProjectX.Infrastructure.Data.Models
     public class Appointment
     {
         public int Id { get; set; }
-        // Add properties for appointment details (e.g., date, time, service, etc.)
 
         public DateTime DateAndTime { get; set; }
 
