@@ -122,6 +122,13 @@ namespace ProjectX.Controllers
                 MapUrl = salon.MapUrl,
                 PhoneNumber = salon.PhoneNumber,
                 ProfilePictureUrl = salon.ProfilePictureUrl,
+                Photos = salon.Photos.Select(p => new PhotoViewModel
+                {
+                    Id = p.Id,
+                    Url = p.Url,
+                    Caption = p.Caption,
+                    DateUploaded = p.DateUploaded
+                }).ToList()
             };
 
             return View(model);
