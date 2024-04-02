@@ -61,7 +61,8 @@
                     <!-- Edit and Delete Buttons -->
                     <div class="mt-4">
                         <a href="@Url.Action("EditSalon", "MySalon", new { id = Model.SalonId })" class="btn btn-primary mr-2">Edit Salon</a>
-                        <button type="button" class="btn btn-danger">Delete Salon</button>
+                        <!-- Updated Delete Button with Data Attribute -->
+                        <button type="button" class="btn btn-danger delete-salon-button" data-salon-id="@Model.SalonId">Delete Salon</button>
                     </div>
                 </div>
             </div>
@@ -177,5 +178,28 @@
             $('#imageModal').modal('show');
         });
 
+        $(document).ready(function () {
+            // Event handler for Delete Salon button
+            $('.delete-salon-button').on('click', function () {
+                var salonId = $(this).data('salon-id'); // Get the salon ID
+
+                if (confirm("Are you sure you want to delete this salon?")) {
+                    $.ajax({
+                        url: '/MySalon/Delete',
+                        type: 'POST',
+                        data: { id: salonId },
+                        success: function (result) {
+                            // Handle success (maybe redirect or refresh the page)
+                            alert("Salon deleted successfully.");
+                            window.location.reload(); // Reload or redirect as needed
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle failure
+                            alert("An error occurred. Salon could not be deleted.");
+                        }
+                    });
+                }
+            });
+        });
     </script>
 }
