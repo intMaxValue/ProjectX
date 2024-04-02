@@ -158,9 +158,15 @@ namespace ProjectX.Core.Services
 
         public async Task DeleteSalonAsync(int id)
         {
-            var salon = await _context.Salons.FindAsync(id);
+            var salon = await _context.Salons.Include(s => s.Photos).FirstOrDefaultAsync(s => s.Id == id);
             if (salon != null)
             {
+                // Delete all associated photos first
+                foreach (var photo in salon.Photos.ToList())
+                {
+                    _context.Photos.Remove(photo);
+                }
+
                 _context.Salons.Remove(salon);
                 await _context.SaveChangesAsync();
             }
