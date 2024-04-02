@@ -215,5 +215,11 @@ namespace ProjectX.Controllers
             return RedirectToAction("Index", new { salonId = id });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _salonService.DeleteSalonAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }
