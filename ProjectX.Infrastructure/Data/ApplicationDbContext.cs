@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProjectX.Infrastructure.Data.Models;
+using ProjectX.Infrastructure.Data.Models.Chat;
 
 namespace ProjectX.Infrastructure.Data
 {
@@ -12,6 +13,8 @@ namespace ProjectX.Infrastructure.Data
         public DbSet<Photo> Photos { get; set; } = null!;
         public DbSet<Appointment> Appointments { get; set; } = null!;
         public DbSet<Availability> Availabilities { get; set; } = null!;
+        public DbSet<ChatRoom> ChatRooms { get; set; } = null!;
+        public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
