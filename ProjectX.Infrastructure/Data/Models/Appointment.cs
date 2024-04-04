@@ -8,8 +8,6 @@ namespace ProjectX.Infrastructure.Data.Models
 
         public DateTime DateAndTime { get; set; }
 
-        public string Comment { get; set; } = string.Empty;
-
         [ForeignKey(nameof(Salon))]
         public int SalonId { get; set; } // Foreign key to Salon
 

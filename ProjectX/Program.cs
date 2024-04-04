@@ -1,5 +1,7 @@
-using ProjectX.Core.Hubs;
 using ProjectX.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ProjectX.Infrastructure.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +40,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -49,9 +50,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapHub<ChatHub>("/chatHub");
-
 });
 
 

@@ -15,9 +15,6 @@ namespace ProjectX.Extensions
             services.AddScoped<ISalonService, SalonService>();
             services.AddScoped<IUserProfileService, UserProfileService>();
 
-            services.AddSignalR();
-            services.AddScoped<IChatService, ChatService>();
-
             services.AddHttpClient<ImageUploader>();
 
             // Register ImageUploader with clientId
