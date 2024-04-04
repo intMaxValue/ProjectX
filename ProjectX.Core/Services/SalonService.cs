@@ -18,9 +18,6 @@ namespace ProjectX.Core.Services
         {
             var salon = await _context.Salons
                 .Include(s => s.Photos)
-                .Include(s => s.Reviews)
-                .Include(s => s.Appointments)
-                .Include(s => s.Availabilities)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             return salon ?? throw new Exception("Salon not found");
@@ -54,6 +51,7 @@ namespace ProjectX.Core.Services
 
             return paginatedSalons;
         }
+
 
         public async Task<int> GetAllSalonsCountAsync(string searchQuery)
         {
