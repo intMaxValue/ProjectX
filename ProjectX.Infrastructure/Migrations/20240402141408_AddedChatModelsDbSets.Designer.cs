@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectX.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using ProjectX.Infrastructure.Data;
 namespace ProjectX.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240402141408_AddedChatModelsDbSets")]
+    partial class AddedChatModelsDbSets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,14 +227,6 @@ namespace ProjectX.Infrastructure.Migrations
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChatRoomId");
@@ -248,16 +242,15 @@ namespace ProjectX.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("SalonId")
-                        .HasColumnType("int");
+                    b.Property<string>("SalonOwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SalonId");
 
                     b.ToTable("ChatRooms");
                 });
@@ -558,17 +551,6 @@ namespace ProjectX.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("ChatRoom");
-                });
-
-            modelBuilder.Entity("ProjectX.Infrastructure.Data.Models.Chat.ChatRoom", b =>
-                {
-                    b.HasOne("ProjectX.Infrastructure.Data.Models.Salon", "Salon")
-                        .WithMany()
-                        .HasForeignKey("SalonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Salon");
                 });
 
             modelBuilder.Entity("ProjectX.Infrastructure.Data.Models.Photo", b =>
