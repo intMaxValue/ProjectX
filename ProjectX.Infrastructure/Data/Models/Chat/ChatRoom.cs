@@ -7,6 +7,7 @@
         public int SalonId { get; set; }
         public ICollection<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
 
+        // Navigation properties
         public Salon Salon { get; set; } = null!;
     }
 }
