@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static ProjectX.Infrastructure.Constants.DataConstants.Appointment;
 
 namespace ProjectX.Infrastructure.Data.Models
 {
@@ -8,6 +10,7 @@ namespace ProjectX.Infrastructure.Data.Models
 
         public DateTime DateAndTime { get; set; }
 
+        [StringLength(AppointmentCommentMaxLength, MinimumLength = AppointmentCommentMinLength, ErrorMessage = AppointmentErrorMessage)]
         public string Comment { get; set; } = string.Empty;
 
         [ForeignKey(nameof(Salon))]
