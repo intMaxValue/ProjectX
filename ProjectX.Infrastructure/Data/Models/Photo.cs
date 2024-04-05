@@ -1,12 +1,15 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static ProjectX.Infrastructure.Constants.DataConstants.Photo;
 
 namespace ProjectX.Infrastructure.Data.Models
 {
     public class Photo
     {
         public int Id { get; set; }
-        public string Url { get; set; } = string.Empty; // This could be a URL or file path
+        public string Url { get; set; } = string.Empty;
+
+        [StringLength(PhotoCaptionMaxLength, MinimumLength = PhotoCaptionMinLength, ErrorMessage = PhotoCaptionErrorMessage)]
         public string Caption { get; set; } = string.Empty;
         public DateTime DateUploaded { get; set; }
 
