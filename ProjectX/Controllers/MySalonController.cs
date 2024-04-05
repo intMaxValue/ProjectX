@@ -4,10 +4,12 @@ using ProjectX.Core.Contracts;
 using ProjectX.Core.Services;
 using ProjectX.ViewModels.Salon;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using User = ProjectX.Infrastructure.Data.Models.User;
 
 namespace ProjectX.Controllers
 {
+    [Authorize(Roles = "SalonOwner")]
     public class MySalonController : Controller
     {
         private readonly ISalonService _salonService;
