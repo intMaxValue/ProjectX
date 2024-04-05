@@ -43,6 +43,20 @@
             public const int DescriptionMaxLength = 8000;
             public const string DescriptionErrorMessage = "{0} must be between {2} and {1} characters long.";
         }
+
+        public static class Photo
+        {
+            public const int PhotoCaptionMinLength = 3;
+            public const int PhotoCaptionMaxLength = 1000;
+            public const string PhotoCaptionErrorMessage = "{0} must be between {2} and {1} characters long.";
+        }
+
+        public static class Appointment
+        {
+            public const int AppointmentCommentMinLength = 3;
+            public const int AppointmentCommentMaxLength = 1000;
+            public const string AppointmentErrorMessage = "{0} must be between {2} and {1} characters long.";
+        }
     }
 }
 
