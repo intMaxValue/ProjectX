@@ -45,7 +45,7 @@
                         @foreach (var photo in Model.Photos)
                         {
                             <div class="col-md-4 mb-3">
-                                <img src="@photo.Url" class="img-fluid salon-photo" alt="@photo.Caption" data-caption="@photo.Caption" data-toggle="modal" data-target="#imageModal">
+                                <img src="@photo.Url" class="img-fluid salon-photo" alt="@photo.Caption" data-caption="@photo.Caption" data-toggle="modal" data-target="#imageModal" style="max-height: 200px; width: auto;">
                                 <p class="photo-caption">@photo.Caption</p>
                             </div>
                         }
