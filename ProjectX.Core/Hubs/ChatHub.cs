@@ -15,9 +15,10 @@ namespace ProjectX.Core.Hubs
             _chatService = chatService;
         }
 
-        public async Task SendMessage(string user, string message, int chatRoomId)
+        public async Task SendMessage(string user, string message, int salonId)
         {
-            var timestamp = DateTime.UtcNow;
+            var timestampUtc = DateTime.UtcNow;
+            var timestampLocal = timestampUtc.ToLocalTime(); // Convert UTC timestamp to local time
 
             // Retrieve the senderId based on the current user's identity
             var senderId = Context.UserIdentifier;
@@ -31,12 +32,11 @@ namespace ProjectX.Core.Hubs
             {
                 SenderName = user,
                 Content = message,
-                Timestamp = timestamp,
-                ChatRoomId = chatRoomId
-            }, chatRoomId, senderId);
+                Timestamp = timestampLocal // Use local time zone timestamp
+            }, senderId, salonId);
 
             // Broadcast the message to all connected clients
-            await Clients.All.SendAsync("ReceiveMessage", user, message, timestamp.ToString("yyyy-MM-dd HH:mm:ss"), chatRoomId);
+            await Clients.All.SendAsync("ReceiveMessage", user, message, timestampLocal.ToString("yyyy-MM-dd HH:mm:ss"), salonId);
         }
 
     }
