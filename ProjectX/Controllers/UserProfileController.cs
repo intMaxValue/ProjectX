@@ -4,6 +4,8 @@ using ProjectX.Core.Contracts;
 using ProjectX.ViewModels.Profile;
 using System.Security.Claims;
 using ProjectX.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
@@ -16,6 +18,7 @@ namespace ProjectX.Controllers
         {
             _profileService = profileService;
             _userManager = userManager;
+            
         }
 
         [HttpGet]
@@ -118,5 +121,23 @@ namespace ProjectX.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserAppointments()
+        {
+            string currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            try
+            {
+                var appointments = await _profileService.GetUserAppointmentsAsync(currentUserId);
+
+                return Json(appointments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred while fetching appointments: {ex.Message}");
+            }
+        }
+
     }
 }
