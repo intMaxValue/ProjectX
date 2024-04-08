@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
+using ProjectX.Infrastructure.Data;
 using ProjectX.Infrastructure.Data.Models;
+using ProjectX.ViewModels.Appointment;
 using ProjectX.ViewModels.Profile;
 
 namespace ProjectX.Core.Services
@@ -10,11 +13,14 @@ namespace ProjectX.Core.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly ImageUploader _imageUploader;
+        private readonly ApplicationDbContext _dbContext;
 
-        public UserProfileService(UserManager<User> userManager, ImageUploader imageUploader)
+
+        public UserProfileService(UserManager<User> userManager, ImageUploader imageUploader, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _imageUploader = imageUploader;
+            _dbContext = dbContext;
         }
 
         public async Task<CompleteProfileViewModel> GetProfileAsync(string userId)
@@ -60,5 +66,21 @@ namespace ProjectX.Core.Services
             return result.Succeeded;
         }
 
+        public async Task<List<AppointmentViewModel>> GetUserAppointmentsAsync(string userId)
+        {
+            var appointments = await _dbContext.Appointments
+                .Include(a => a.Salon)
+                .Where(a => a.UserId == userId && a.DateAndTime >= DateTime.Now)
+                .OrderBy(a => a.DateAndTime)
+                .Select(a => new AppointmentViewModel
+                {
+                    DateTime = a.DateAndTime,
+                    SalonName = a.Salon.Name,
+                    Comment = a.Comment
+                })
+                .ToListAsync();
+
+            return appointments;
+        }
     }
 }
