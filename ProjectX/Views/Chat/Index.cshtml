@@ -47,9 +47,14 @@
 
         connection.on("ReceiveMessage", function (username, message, timestamp) {
             var formattedTimestamp = timestamp ? `<span class="timestamp">${timestamp}</span>` : '';
-            $("#chatMessages").append(`<div class="message"><strong>${username}</strong>: ${message} (${formattedTimestamp})</div>`);
+            appendMessage(username, message, formattedTimestamp);
         });
 
+        function appendMessage(username, message, timestamp) {
+            $("#chatMessages").append(`<div class="message"><strong>${username}</strong>: ${message} (${timestamp})</div>`);
+            // Scroll to the bottom of the chat window
+            $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+        }
 
         connection.start().then(function () {
             console.log("SignalR connected");
@@ -69,3 +74,4 @@
         });
     </script>
 }
+
