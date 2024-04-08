@@ -57,20 +57,30 @@
                             <button id="addPhotoButton" class="btn btn-primary">Add Photos</button>
                         </div>
                     </div>
-
+                    
+                    <hr/>
                     
                     <div class="col-md-12">
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">Live Chat</h5>
+                                <p>Chat with us and make an appointment</p>
                                 <form asp-controller="Chat" asp-action="Index" method="get">
                                     <input type="hidden" name="salonId" value="@Model.SalonId" />
-                                    <button type="submit" class="btn btn-primary col-md-8">Live Chat</button>
+                                    <button type="submit" class="btn btn-primary col-md-8">Make an Appointment</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                     
+                    <!-- Appointments Section -->
+                    <div class="card-body">
+                        <h4>Appointments:</h4>
+                        <div id="appointmentList" class="row mt-3">
+                            <!-- Appointments will be listed here -->
+                        </div>
+                    </div>
+
                     <!-- Edit and Delete Buttons -->
                     <div class="mt-4">
                         <a href="@Url.Action("EditSalon", "MySalon", new { id = Model.SalonId })" class="btn btn-primary mr-2">Edit Salon</a>
@@ -212,6 +222,48 @@
                     });
                 }
             });
+        });
+
+        // Function to fetch appointments for the salon
+        $(document).ready(function () {
+            function fetchAppointments() {
+                var salonId = '@Model.SalonId'; // Get the salon ID
+
+                $.ajax({
+                    url: '/MySalon/GetAppointments',
+                    type: 'GET',
+                    data: { salonId: salonId },
+                    success: function (response) {
+                        // Clear existing list
+                        $('#appointmentList').empty();
+
+                        if (response.length === 0) {
+                            // If no appointments, display a message
+                            $('#appointmentList').html('<p>No appointments available.</p>');
+                        } else {
+                            // Populate the list with appointments
+                            $.each(response, function (index, appointment) {
+                                var appointmentBox = `<div class="col-md-4 mb-3">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${appointment.dateTime}</h5>
+                                                                <h6 class="card-subtitle mb-2 text-muted">${appointment.userName}</h6>
+                                                                <p class="card-text">${appointment.comment}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                                $('#appointmentList').append(appointmentBox);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching appointments:', error);
+                    }
+                });
+            }
+
+            // Call fetchAppointments function when the page loads
+            fetchAppointments();
         });
     </script>
 }
