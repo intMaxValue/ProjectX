@@ -6,6 +6,8 @@ using ProjectX.ViewModels.Salon;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using User = ProjectX.Infrastructure.Data.Models.User;
+using Microsoft.EntityFrameworkCore;
+using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
@@ -15,12 +17,14 @@ namespace ProjectX.Controllers
         private readonly ISalonService _salonService;
         private readonly ImageUploader _imageUploader;
         private readonly UserManager<User> _userManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public MySalonController(ISalonService salonService, ImageUploader imageUploader, UserManager<User> userManager)
+        public MySalonController(ISalonService salonService, ImageUploader imageUploader, UserManager<User> userManager, ApplicationDbContext dbContext)
         {
             _salonService = salonService;
             _imageUploader = imageUploader;
             _userManager = userManager;
+            _dbContext = dbContext;
         }
 
         public async Task<IActionResult> Index(int salonId)
@@ -176,6 +180,31 @@ namespace ProjectX.Controllers
             // Return the view with the populated ViewModel
             return View(viewModel);
         }
+
+        [HttpGet]
+        public IActionResult GetAppointments(int salonId)
+        {
+            var currentTime = DateTime.Now;
+
+            var appointments = _dbContext.Appointments
+                .Include(a => a.User)
+                .Where(a => a.SalonId == salonId && a.DateAndTime > currentTime) // Filter appointments that are in the future
+                .OrderBy(a => a.DateAndTime) // Order by date and time ascending
+                .ToList();
+
+            var appointmentViewModels = appointments.Select(a => new
+            {
+                DateTime = a.DateAndTime.ToString("yyyy-MM-dd HH:mm"),
+                UserName = a.User.UserName,
+                Comment = a.Comment
+            });
+
+            return Json(appointmentViewModels);
+        }
+
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> EditSalon(int id, CreateSalonViewModel viewModel)
