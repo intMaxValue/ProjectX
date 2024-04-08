@@ -87,7 +87,7 @@ namespace ProjectX.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 // Return a success response
-                return Ok();
+                return Json(new { success = true, message = "Appointment created successfully." });
             }
             else
             {
