@@ -36,6 +36,8 @@
             {
                 <a href="@Url.Action("EditProfile", "UserProfile")" class="btn btn-primary">Edit your profile</a>
             }
+            
+            <hr />
 
             <!-- Appointments section -->
             <div class="mt-4">
@@ -54,7 +56,12 @@
         // Function to format date and time string
         function formatDateTime(dateTimeString) {
             var dateTime = new Date(dateTimeString);
-            var formattedDateTime = dateTime.toLocaleString(); // Use toLocaleString to format date and time
+            var year = dateTime.getFullYear();
+            var month = ('0' + (dateTime.getMonth() + 1)).slice(-2); // Adding leading zero if needed
+            var day = ('0' + dateTime.getDate()).slice(-2); // Adding leading zero if needed
+            var hours = ('0' + dateTime.getHours()).slice(-2); // Adding leading zero if needed
+            var minutes = ('0' + dateTime.getMinutes()).slice(-2); // Adding leading zero if needed
+            var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
             return formattedDateTime;
         }
 
@@ -78,14 +85,14 @@
                                 var formattedDateTime = formatDateTime(appointment.dateTime);
 
                                 var appointmentBox = `<div class="col-md-4 mb-3">
-                                                                    <div class="card">
-                                                                        <div class="card-body">
-                                                                            <h5 class="card-title">${formattedDateTime}</h5>
-                                                                            <h6 class="card-subtitle mb-2 text-muted">${appointment.salonName}</h6>
-                                                                            <p class="card-text">${appointment.comment}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>`;
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">${formattedDateTime}</h5>
+                                                                                    <h6 class="card-subtitle mb-2 text-muted">${appointment.salonName}</h6>
+                                                                                    <p class="card-text">${appointment.comment}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`;
                                 $('#appointmentList').append(appointmentBox);
                             });
                         }
@@ -100,5 +107,5 @@
             fetchUserAppointments();
         });
     </script>
-
 }
+
