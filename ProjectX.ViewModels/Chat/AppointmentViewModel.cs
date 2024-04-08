@@ -17,5 +17,6 @@ namespace ProjectX.ViewModels.Appointment
 
         [Required]
         public int SalonId { get; set; } 
+        public string SalonName { get; set;} = string.Empty;
     }
 }
