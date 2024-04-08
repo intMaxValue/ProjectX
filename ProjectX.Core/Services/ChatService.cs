@@ -1,16 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProjectX.Core.Contracts;
-using ProjectX.Infrastructure.Data;
-using ProjectX.Infrastructure.Data.Models.Chat;
-using ProjectX.ViewModels.Chat;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using ProjectX.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ProjectX.Core.Contracts;
+using ProjectX.Infrastructure.Data;
+using ProjectX.Infrastructure.Data.Models;
+using ProjectX.Infrastructure.Data.Models.Chat;
+using ProjectX.ViewModels.Chat;
 
 namespace ProjectX.Core.Services
 {
@@ -29,29 +29,44 @@ namespace ProjectX.Core.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-
-
-        public async Task<IEnumerable<ChatMessageViewModel>> GetChatMessagesForRoomAsync(int chatRoomId, ClaimsPrincipal user)
+        public async Task<IEnumerable<ChatMessageViewModel>> GetChatMessagesForRoomAsync(int salonId, ClaimsPrincipal user)
         {
             var userName = user.Identity.Name;
 
+            var chatRoom = await _dbContext.ChatRooms.FirstOrDefaultAsync(room => room.SalonId == salonId);
+
+            if (chatRoom == null)
+            {
+                // Handle case where chat room does not exist for the given salonId
+                return new List<ChatMessageViewModel>(); // Return an empty list
+            }
             var chatMessages = await _dbContext.ChatMessages
-                .Where(m => m.ChatRoomId == chatRoomId)
+                .Where(m => m.ChatRoomId == chatRoom.Id) // Filter by chat room ID
                 .OrderBy(m => m.DateAndTime)
                 .Select(message => new ChatMessageViewModel
                 {
                     SenderName = message.UserName ?? "Unknown",
                     Content = message.Content,
-                    Timestamp = message.DateAndTime
+                    Timestamp = message.DateAndTime.ToLocalTime()
                 })
                 .ToListAsync();
 
             return chatMessages;
         }
 
-
-        public async Task SendMessageAsync(ChatMessageViewModel message, int chatRoomId, string senderId)
+        public async Task SendMessageAsync(ChatMessageViewModel message, string senderId, int salonId)
         {
+            // Check if the chat room with the specified salonId exists
+            var chatRoom = await _dbContext.ChatRooms.FirstOrDefaultAsync(room => room.SalonId == salonId);
+
+            // If chat room does not exist, create a new one
+            if (chatRoom == null)
+            {
+                chatRoom = new ChatRoom { SalonId = salonId };
+                _dbContext.ChatRooms.Add(chatRoom);
+                await _dbContext.SaveChangesAsync();
+            }
+
             // Retrieve the User object associated with the senderId
             var user = await _userManager.FindByIdAsync(senderId);
             if (user == null)
@@ -64,7 +79,7 @@ namespace ProjectX.Core.Services
 
             var chatMessage = new ChatMessage
             {
-                ChatRoomId = chatRoomId,
+                ChatRoomId = chatRoom.Id, // Use the generated chat room ID
                 Content = message.Content,
                 DateAndTime = DateTime.UtcNow,
                 SenderId = senderId,
@@ -75,7 +90,10 @@ namespace ProjectX.Core.Services
             await _dbContext.SaveChangesAsync();
         }
 
-
+        public async Task<bool> DoesChatRoomExistAsync(int salonId)
+        {
+            return await _dbContext.ChatRooms.AnyAsync(room => room.SalonId == salonId);
+        }
 
         public async Task<User> GetCurrentUserAsync()
         {
