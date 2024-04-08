@@ -26,7 +26,10 @@ namespace ProjectX.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             // Fluent API configurations
-            // Configure relationships between entities, set primary keys, etc.
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(cm => cm.ChatRoom)
+                .WithMany(cr => cr.Messages)
+                .HasForeignKey(cm => cm.ChatRoomId);
             
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.User)
