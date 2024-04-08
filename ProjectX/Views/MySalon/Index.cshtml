@@ -64,10 +64,9 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">Live Chat</h5>
-                                <p>Chat with us and make an appointment</p>
                                 <form asp-controller="Chat" asp-action="Index" method="get">
                                     <input type="hidden" name="salonId" value="@Model.SalonId" />
-                                    <button type="submit" class="btn btn-primary col-md-8">Make an Appointment</button>
+                                    <button type="submit" class="btn btn-primary col-md-8">Check Messages</button>
                                 </form>
                             </div>
                         </div>
