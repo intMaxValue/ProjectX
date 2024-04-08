@@ -1,14 +1,16 @@
-﻿using ProjectX.ViewModels.Chat;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ProjectX.Infrastructure.Data.Models;
+using ProjectX.ViewModels.Chat;
 
 namespace ProjectX.Core.Contracts
 {
     public interface IChatService
     {
-        Task<IEnumerable<ChatMessageViewModel>> GetChatMessagesForRoomAsync(int chatRoomId, ClaimsPrincipal user);
-        Task SendMessageAsync(ChatMessageViewModel message, int chatRoomId, string senderId);
-
+        Task<IEnumerable<ChatMessageViewModel>> GetChatMessagesForRoomAsync(int salonId, ClaimsPrincipal user);
+        Task SendMessageAsync(ChatMessageViewModel message, string senderId, int salonId);
+        Task<bool> DoesChatRoomExistAsync(int salonId);
+        Task<User> GetCurrentUserAsync();
     }
 }
