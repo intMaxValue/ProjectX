@@ -14,6 +14,18 @@
                     <p class="card-text"><b>Location:</b> @Model.City, @Model.Address</p>
                     <p class="card-text"><b>Phone number:</b> @Model.PhoneNumber</p>
                     <p class="card-text"><b>About us:</b> <br />@Model.Description</p>
+                    
+                    <div class="col-md-12">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Live Chat</h5>
+                                <form asp-controller="Chat" asp-action="Index" method="get">
+                                    <input type="hidden" name="salonId" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-primary col-md-8">Book Appointment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Check if MapUrl is not null or empty -->
                     @if (!string.IsNullOrEmpty(Model.MapUrl))
@@ -42,17 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Book Appointment</h5>
-                <form asp-controller="Chat" asp-action="Index" method="get">
-                    <input type="hidden" name="salonId" value="@Model.Id" />
-                    <button type="submit" class="btn btn-primary">Book Appointment</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 <!-- Image Modal -->
