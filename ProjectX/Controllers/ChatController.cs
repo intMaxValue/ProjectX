@@ -69,32 +69,39 @@ namespace ProjectX.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(AppointmentViewModel model)
+        public async Task<IActionResult> Create(string senderName, DateTime dateTime, string comment, int salonId)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // Map the view model to the Appointment entity
+                var userId = await _dbContext.Users
+                    .Where(u => u.UserName == senderName)
+                    .Select(u => u.Id)
+                    .FirstOrDefaultAsync();
+
+                if (userId == null)
+                {
+                    return BadRequest("User not found.");
+                }
+
                 var appointment = new Appointment
                 {
-                    DateAndTime = model.DateTime,
-                    Comment = model.Comment,
-                    SalonId = model.SalonId,
-                    UserId = model.UserId // Assign UserId from the view model
+                    DateAndTime = dateTime,
+                    Comment = comment,
+                    UserId = userId,
+                    SalonId = salonId,
                 };
 
-                // Add the appointment to the database
                 _dbContext.Appointments.Add(appointment);
                 await _dbContext.SaveChangesAsync();
 
-                // Return a success response
-                return Json(new { success = true, message = "Appointment created successfully." });
+                return Ok();
             }
-            else
+            catch (Exception ex)
             {
-                // Return validation errors
-                return BadRequest(ModelState);
+                return BadRequest($"Failed to create appointment: {ex.Message}");
             }
         }
+
 
     }
 }
