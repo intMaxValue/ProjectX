@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using ProjectX.ViewModels.Appointment;
 using ProjectX.ViewModels.Profile;
 
 namespace ProjectX.Core.Contracts
@@ -7,5 +8,6 @@ namespace ProjectX.Core.Contracts
     {
         Task<CompleteProfileViewModel> GetProfileAsync(string userId);
         Task<bool> UpdateProfileAsync(string userId, CompleteProfileViewModel model, IFormFile profilePicture);
+        Task<List<AppointmentViewModel>> GetUserAppointmentsAsync(string userId);
     }
 }
