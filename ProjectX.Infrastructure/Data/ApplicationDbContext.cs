@@ -12,7 +12,6 @@ namespace ProjectX.Infrastructure.Data
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<Photo> Photos { get; set; } = null!;
         public DbSet<Appointment> Appointments { get; set; } = null!;
-        public DbSet<Availability> Availabilities { get; set; } = null!;
         public DbSet<ChatRoom> ChatRooms { get; set; } = null!;
         public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
 
