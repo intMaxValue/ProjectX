@@ -37,6 +37,5 @@ namespace ProjectX.Infrastructure.Data.Models
         public ICollection<Photo> Photos { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = null!;
         public ICollection<Appointment> Appointments { get; set; } = null!;
-        public ICollection<Availability> Availabilities { get; set; } = null!;
     }
 }
