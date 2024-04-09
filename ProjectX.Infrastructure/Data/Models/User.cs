@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ProjectX.Infrastructure.Constants;
-using ProjectX.Infrastructure.Data.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectX.Infrastructure.Data.Models
@@ -15,7 +14,6 @@ namespace ProjectX.Infrastructure.Data.Models
 
         [StringLength(DataConstants.User.CityMaxLength, ErrorMessage = DataConstants.User.CityErrorMessage, MinimumLength = DataConstants.User.CityMinLength)]
         public string City { get; set; } = string.Empty;
-        public UserType UserType { get; set; }
         public string ProfilePicture { get; set; } = string.Empty;
 
         // Navigation properties
