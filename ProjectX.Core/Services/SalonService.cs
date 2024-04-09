@@ -31,7 +31,6 @@ namespace ProjectX.Core.Services
                 .Include(s => s.Photos)
                 .Include(s => s.Reviews)
                 .Include(s => s.Appointments)
-                .Include(s => s.Availabilities)
                 .ToListAsync();
         }
 
