@@ -11,7 +11,13 @@ namespace ProjectX.Infrastructure.Data.Seed
         {
             var data = new SeedData();
 
-            builder.HasData(new Salon[] { data.SalonSv, data.SalonPl, data.SalonRs, data.SalonVt, data.SalonSf, data.SalonVn, data.SalonSz });
+            builder.HasData(new Salon[] { data.SalonSv, data.SalonSv1, data.SalonSv2, data.SalonSv3,
+                data.SalonSf, data.SalonSf1, data.SalonSf2, data.SalonSf3,
+                data.SalonPl, data.SalonPl1, data.SalonPl2,
+                data.SalonVt, data.SalonVt1,
+                data.SalonRs,
+                data.SalonVn,
+                data.SalonSz });
         }
     }
 }
