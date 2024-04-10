@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using ProjectX.Infrastructure.Data.Models;
 using ProjectX.Infrastructure.Data.Models.Chat;
+using ProjectX.Infrastructure.Data.Seed;
 
 namespace ProjectX.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
+
         public DbSet<Salon> Salons { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<Photo> Photos { get; set; } = null!;
@@ -22,6 +27,11 @@ namespace ProjectX.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new SalonConfiguration());
+
+
             base.OnModelCreating(modelBuilder);
 
             // Fluent API configurations
@@ -85,5 +95,6 @@ namespace ProjectX.Infrastructure.Data
                 .HasForeignKey(r => r.SalonId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
     }
 }
