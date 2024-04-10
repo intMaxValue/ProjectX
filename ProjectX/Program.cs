@@ -18,10 +18,21 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+
+    // Seed Admin
+    SeedRoles.SeedAdministrator(app);
+
+    // Seed salon owners
+    SeedRoles.SeedSalonOwners(app);
+
+    // Seed regular users
+    SeedRoles.SeedUsers(app);
 }
 else
 {
