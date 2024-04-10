@@ -200,7 +200,7 @@ namespace ProjectX.Infrastructure.Data.Seed
             SalonSv = new Salon()
             {
                 Id = 20,
-                OwnerId = "e0b4f60e-97d7-4d4c-bd9c-af9fdb80a12a",
+                OwnerId = "7f6d9128-eb2a-4017-9be4-de846f4092a8",
                 Name = "La Famme",
                 Address = "Център, ул. Александър Стамболийски 9",
                 City = "Свищов",
