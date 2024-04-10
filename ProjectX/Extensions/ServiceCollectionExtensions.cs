@@ -32,9 +32,6 @@ namespace ProjectX.Extensions
             
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            using var serviceProvider = services.BuildServiceProvider();
-            SeedRoles(serviceProvider).Wait();
-
             return services;
         }
 
