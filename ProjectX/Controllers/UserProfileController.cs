@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectX.Core.Contracts;
 using ProjectX.ViewModels.Profile;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using ProjectX.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
+    [Authorize]
     public class UserProfileController : Controller
     {
         private readonly IUserProfileService _profileService;

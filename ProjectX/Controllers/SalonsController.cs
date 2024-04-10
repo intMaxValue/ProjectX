@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectX.Core.Contracts;
@@ -8,6 +9,7 @@ using ProjectX.ViewModels.Salon;
 
 namespace ProjectX.Controllers
 {
+    [Authorize]
     public class SalonsController : Controller
     {
         private readonly ISalonService _salonService;
@@ -26,6 +28,7 @@ namespace ProjectX.Controllers
         public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
             ViewBag.SearchQuery = searchQuery;
+            
 
             // Retrieve paginated salons from the service
             var paginatedSalons = await _salonService.GetPaginatedSalonsAsync(searchQuery, page, PageSize);

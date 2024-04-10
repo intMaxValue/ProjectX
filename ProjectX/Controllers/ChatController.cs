@@ -5,11 +5,13 @@ using ProjectX.ViewModels.Appointment;
 using ProjectX.ViewModels.Chat;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using ProjectX.Infrastructure.Data.Models;
 using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         private readonly IChatService _chatService;
