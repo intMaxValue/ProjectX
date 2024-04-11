@@ -20,7 +20,7 @@ namespace ProjectX.Core.Services
                 .Include(s => s.Photos)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
-            return salon ?? throw new Exception("Salon not found");
+            return salon;
         }
 
         public async Task<IEnumerable<Salon?>> GetAllSalonsByOwnerIdAsync(string ownerId)
