@@ -28,7 +28,6 @@ namespace ProjectX.Controllers
         public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
             ViewBag.SearchQuery = searchQuery;
-            
 
             // Retrieve paginated salons from the service
             var paginatedSalons = await _salonService.GetPaginatedSalonsAsync(searchQuery, page, PageSize);
