@@ -1,0 +1,65 @@
+﻿
+<div class="container">
+    <div class="error-content">
+        <a href="@Url.Action("Index", "Home")" class="btn-home">Go Home</a>
+    </div>
+</div>
+
+<style>
+    /* Adjustments for the layout */
+    body {
+        background-image: url('@Url.Content("~/Images/Errors/404nitro.jpg")');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #fec1c2;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container {
+        flex: 1;
+    }
+
+    .error-content {
+        text-align: center;
+        color: white;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .error-content h1 {
+        font-size: 4em;
+        margin-bottom: 20px;
+    }
+
+    .error-content {
+        position: absolute;
+        top: 70%; 
+        left: 34%; 
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white; 
+    }
+
+    .btn-home {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #de4068;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+        border-color: #de4068;
+    }
+
+    .btn-home:hover {
+            background-color: #c50032;
+            border-color: #c50032;
+            color:aliceblue;
+    }
+</style>
