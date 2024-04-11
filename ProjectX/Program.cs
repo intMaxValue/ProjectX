@@ -41,6 +41,8 @@ else
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -52,6 +54,11 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllerRoute(
+        name: "Error",
+        pattern: "/Error/{statusCode}",
+        defaults: new { controller = "Error", action = "Error" });
+
     endpoints.MapControllerRoute(
         name: "salon",
         pattern: "Salon",
