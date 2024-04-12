@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjectX.Infrastructure.Data.Models;
-using ProjectX.Infrastructure.Data;
 using ProjectX.Core.Contracts;
 using ProjectX.ViewModels.Reviews;
 using System.Security.Claims;
@@ -41,6 +38,9 @@ namespace ProjectX.Controllers
             ViewData["FullName"] = $"{userProfile.FirstName} {userProfile.LastName}";
             ViewData["City"] = userProfile.City; // Add City to ViewData
 
+            var isSalonOwner = salon.OwnerId == User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ViewData["IsSalonOwner"] = isSalonOwner;
+
             var reviews = await _reviewService.GetReviewsForSalonAsync(salonId);
             return View(reviews);
         }
@@ -66,55 +66,6 @@ namespace ProjectX.Controllers
             return Json(new { success = false, error = "Invalid model state." });
         }
 
-        // GET: Reviews/Edit/5
-        public async Task<IActionResult> EditAsync(int id)
-        {
-            var review = await _reviewService.GetReviewByIdAsync(id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-            return View(review);
-        }
-
-        // POST: Reviews/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, ReviewViewModel review)
-        {
-            if (id != review.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _reviewService.UpdateReviewAsync(review);
-                    return RedirectToAction("Index", "Salons", new { id = review.SalonId });
-                }
-                catch (Exception ex)
-                {
-                    // Log the exception
-                    ModelState.AddModelError(string.Empty, "An error occurred while updating the review.");
-                    return View(review);
-                }
-            }
-            return View(review);
-        }
-
-        // GET: Reviews/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-            var review = await _reviewService.GetReviewByIdAsync(id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return View(review);
-        }
 
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -123,13 +74,23 @@ namespace ProjectX.Controllers
         {
             try
             {
+                // Get the review by id
+                var review = await _reviewService.GetReviewByIdAsync(id);
+
+                // Check if the current user is the SalonOwner
+                var salon = await _salonService.GetSalonByIdAsync(review.SalonId);
+                var isSalonOwner = salon.OwnerId == User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                // Delete the review
                 await _reviewService.DeleteReviewAsync(id);
-                return RedirectToAction("Index", "Salons", new { id });
+
+                // Refresh the page
+                return RedirectToAction("Index", new { salonId = salon.Id });
             }
             catch (Exception ex)
             {
                 // Log the exception
-                return RedirectToAction("Error", "Home"); // Redirect to error page
+                return RedirectToAction("Error", "Error"); // Redirect to error page
             }
         }
     }
