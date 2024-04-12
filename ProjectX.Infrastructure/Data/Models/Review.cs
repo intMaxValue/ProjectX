@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static ProjectX.Infrastructure.Constants.DataConstants.Review;
 
 namespace ProjectX.Infrastructure.Data.Models
 {
@@ -11,6 +13,8 @@ namespace ProjectX.Infrastructure.Data.Models
 
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = string.Empty; // Foreign key to User
+
+        [StringLength(ReviewMaxLength, MinimumLength = ReviewMinLength, ErrorMessage = ReviewErrorMessage)]
         public string Comment { get; set; } = string.Empty;
         public DateTime DatePosted { get; set; }
 
