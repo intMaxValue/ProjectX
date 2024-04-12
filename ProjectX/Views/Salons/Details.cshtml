@@ -4,8 +4,8 @@
 }
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
             <h2 class="card-title text-center">@Model.Name</h2>
             <div class="card">
                 <img src="@Model.ProfilePictureUrl" class="card-img-top" alt="Salon Profile Picture">
@@ -52,6 +52,15 @@
                     }  
                 </div>
             </div>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Reviews</h5>
+                        <p class="card-text text-center">Check out what others are saying about this salon!</p>
+                        <div class="text-center">
+                            <a href="/Salons/@Model.Id/Reviews" class="btn btn-primary">Read Reviews</a>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
     
