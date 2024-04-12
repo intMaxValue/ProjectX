@@ -35,6 +35,15 @@
                                 <h5 class="font-weight-bold mb-1">@Html.DisplayFor(model => review.FullName) <span class="mb-0 text-muted">(@review.DatePosted.ToString("MMMM dd, yyyy HH:mm"))</span></h5>
                                 
                                 <p class="mb-0">@Html.DisplayFor(model => review.Comment)</p>
+
+                                @if ((bool)ViewData["IsSalonOwner"] == true)
+                                {
+                                    <!-- Render delete button if the user is the SalonOwner -->
+                                    <form asp-action="Delete" asp-route-id="@review.Id" method="post" class="mt-2">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                }
                             </div>
                         </div>
                     </div>
