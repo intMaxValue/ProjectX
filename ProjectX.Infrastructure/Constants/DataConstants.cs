@@ -57,6 +57,13 @@
             public const int AppointmentCommentMaxLength = 1000;
             public const string AppointmentErrorMessage = "{0} must be between {2} and {1} characters long.";
         }
+
+        public static class Review
+        {
+            public const int ReviewMinLength = 3;
+            public const int ReviewMaxLength = 1000;
+            public const string ReviewErrorMessage = "{0} must be between {2} and {1} characters long.";
+        }
     }
 }
 
