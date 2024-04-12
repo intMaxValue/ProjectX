@@ -1,0 +1,94 @@
+﻿@model IList<ProjectX.ViewModels.Reviews.ReviewViewModel>
+
+@{
+    ViewData["Title"] = "Customer Reviews";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h4 class="font-weight-bold mb-2">Reviews</h4>
+            <h1 class="font-weight-bold">@ViewData["SalonName"]</h1>
+        </div>
+    </div>
+
+    <!-- Salon Profile Picture -->
+    <div class="row mb-4 justify-content-center">
+        <div class="col-auto text-center">
+            <img src="@ViewData["SalonProfilePictureUrl"]" class="img-fluid col-md-6" title="Salon Profile Picture" alt="Salon Profile Picture">
+        </div>
+    </div>
+
+    <!-- Display existing reviews -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="list-group">
+                @foreach (var review in Model)
+                {
+                    <div class="list-group-item mb-3">
+                        <div class="d-flex align-items-center">
+                            <!-- User Profile Picture -->
+                            <img src="@review.UserProfilePictureUrl" class="img-fluid rounded-circle mr-3 photo" style="width: 50px; height: 50px; margin-right:20px;" title="User Profile Picture" alt="User Profile Picture">
+                            <!-- Review Content -->
+                            <div>
+                                <h5 class="font-weight-bold mb-1">@Html.DisplayFor(model => review.FullName) <span class="mb-0 text-muted">(@review.DatePosted.ToString("MMMM dd, yyyy HH:mm"))</span></h5>
+                                
+                                <p class="mb-0">@Html.DisplayFor(model => review.Comment)</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Form for creating a new review -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-8">
+            <form id="createReviewForm" method="post" action="/Salons/@ViewData["SalonId"]/Reviews/CreateAsync">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <textarea id="reviewContent" name="reviewContent" rows="4" class="form-control" placeholder="Write your review here..."></textarea>
+                </div>
+                <input type="hidden" id="userId" name="userId" value="@ViewData["UserId"]" />
+                <input type="hidden" id="fullName" name="fullName" value="@ViewData["FullName"]" />
+                <input type="hidden" id="userCity" name="userCity" value="@ViewData["City"]" />
+                <input type="hidden" id="userProfilePictureUrl" name="userProfilePictureUrl" value="@ViewData["UserProfile"]" />
+                <input type="hidden" id="comment" name="comment" /> <!-- Hidden input field for the comment -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button type="button" class="btn btn-primary" onclick="goBack()">Back</button>
+                    <button type="submit" class="btn btn-primary col-md-4">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('#createReviewForm').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+                var reviewContent = $('#reviewContent').val(); // Get review content from textarea
+                $('#comment').val(reviewContent); // Set the value of the hidden comment field
+                $.post('/Salons/@ViewData["SalonId"]/Reviews/CreateAsync', $(this).serialize(), function (data) {
+                    if (data.success) {
+                        // Refresh the page after successful submission
+                        location.reload();
+                    } else {
+                        // Handle errors
+                        alert(data.error);
+                    }
+                });
+            });
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+}
