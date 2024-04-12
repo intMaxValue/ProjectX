@@ -14,6 +14,7 @@ namespace ProjectX.Extensions
             services.AddSingleton<RssFeedService>();
             services.AddScoped<ISalonService, SalonService>();
             services.AddScoped<IUserProfileService, UserProfileService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
             services.AddSignalR();
             services.AddScoped<IChatService, ChatService>();
