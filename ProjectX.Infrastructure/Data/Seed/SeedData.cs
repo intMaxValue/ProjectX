@@ -67,7 +67,7 @@ namespace ProjectX.Infrastructure.Data.Seed
                 PhoneNumber = "0888000000",
                 ProfilePicture = "https://wallpapers.com/images/high/funny-profile-picture-ylwnnorvmvk2lna0.webp"
             };
-            User.PasswordHash = hasher.HashPassword(Admin, "Admin123!");
+            Admin.PasswordHash = hasher.HashPassword(Admin, "Admin123!");
 
             //Normal User
             User = new User()
