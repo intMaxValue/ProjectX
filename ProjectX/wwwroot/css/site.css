@@ -30,6 +30,21 @@ body {
     z-index: -1;
 }
 
+.footer {
+    background-image: url('../Images/bg-nail-technology.jpg'); /* Adjust the path to your image */
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+.navbar {
+    background-image: url('../Images/bg-nail-technology-mirror.jpg'); /* Adjust the path to your image */
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
+    font-size: 20px;
+}
+
 .content-box {
     padding: 20px;
     background-color: rgba(128, 128, 128, 0.5); /* Grey with 50% opacity */
