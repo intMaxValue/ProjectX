@@ -29,17 +29,17 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-custom btn-link text-dark">Logout</button>
+                <button type="submit" class="nav-link btn btn-custom btn-link text-dark"><b>Logout</b></button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark btn btn-custom" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="nav-link text-dark btn btn-custom" asp-area="Identity" asp-page="/Account/Register"><b>Register</b></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark btn btn-custom" style="margin-left: 20px;" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a class="nav-link text-dark btn btn-custom" style="margin-left: 20px;" asp-area="Identity" asp-page="/Account/Login"><b>Login</b></a>
         </li>
     }
 </ul>
