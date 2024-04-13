@@ -57,7 +57,7 @@ namespace ProjectX.Controllers
                     await _reviewService.CreateReviewAsync(review);
                     return Json(new { success = true });
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ModelState.AddModelError(string.Empty, "An error occurred while creating the review.");
                     return Json(new { success = false, error = "An error occurred while creating the review." });
@@ -87,7 +87,7 @@ namespace ProjectX.Controllers
                 // Refresh the page
                 return RedirectToAction("Index", new { salonId = salon.Id });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log the exception
                 return RedirectToAction("Error", "Error"); // Redirect to error page
