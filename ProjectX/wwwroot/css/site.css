@@ -43,6 +43,7 @@ body {
     background-position: left;
     background-repeat: no-repeat;
     font-size: 20px;
+    padding-left: 270px;
 }
 
 .content-box {
@@ -85,11 +86,12 @@ body {
 
 /*Stripe stop Cities*/
 .custom-info-box {
+    background-image: linear-gradient(to left, #ffffff, #eff1fd, #d8e5fc, #badaf9, #96d1f4, #86caf6, #76c3f9, #67bcfb, #8eb0ff, #b9a1f8, #e08fe2, #fd7ebf);
     display: flex; /* Enable Flexbox */
     justify-content: space-between; /* Align items to start and end of the container */
     align-items: center; /* Center items vertically */
     flex-wrap: wrap; /* Allow items to wrap */
-    background-color: #a5c2ff;
+    background-color: #56c6e6;
     border-color: #f5c6cb;
     color: #000;
     font-size: 19px;
@@ -99,17 +101,18 @@ body {
 
 
 .badge-custom {
-    background-color: #e8c2ff; /* Change the background color of the badges */
-    color: #5f70fb; /* Change the text color of the badges */
+    background-color: #fd7ebf; /* Change the background color of the badges */
+    color: black; /* Change the text color of the badges */
     font-size: 19px; /* Change the font size of the badges */
     margin-right: 15px; /* Adjust the spacing between badges */
     margin-left: 10px;
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition effect for background color and box shadow */
     box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.2); /* Add shadow on the bottom and right side */
+    text-decoration: none;
 }
 
 .badge-custom:hover {
-    background-color: #9047ff; /* Change background color on hover */
+    background-color: #fb0d87; /* Change background color on hover */
     cursor: pointer; /* Change cursor to pointer on hover */
     color: #fff;
     box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15); /* Make the shadow smaller on hover */
@@ -121,18 +124,18 @@ body {
 
 
 .btn-primary {
-    background-color: #a5c2ff;
+    background-color: #5acae6;
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition effect for background color and box shadow */
     box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.2);
-    border-color: #729fff;
+    border-color: #5acae6;
     margin: 10px;
 }
 .btn-primary:hover {
-    background-color: #9047ff;
+    background-color: #fd7ebf;
     cursor: pointer;
     color: #fff;
     box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
-    border-color: #7418ff; /* Change border color on hover */
+    border-color: #fd7ebf; /* Change border color on hover */
 }
 
 .btn-success {
@@ -145,9 +148,30 @@ body {
         
 }
 
+.btn {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition effect for background color and box shadow */
+    box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+
+
 .salon-chat-profile-picture {
     width: 300px; 
     height: auto;
+}
+
+
+.btn-custom {
+    
+}
+
+.btn-custom:hover {
+    background-color: #fd7ebf;
+    transition: background-color 0.3s ease;
 }
 
 /*Appointments*/
@@ -168,4 +192,18 @@ body {
 
 .card-body h4 {
     margin-bottom: 10px;
+}
+
+.page-item.active .page-link {
+    background-color: #FD7EBF;
+    border-color: #FD7EBF;
+}
+
+.page-item.active .page-link:hover {
+    background-color: #FD7EBF;
+    border-color: #FD7EBF;
+}
+
+.projectx-title {
+    font-family: 'Satreva Neue', sans-serif;
 }

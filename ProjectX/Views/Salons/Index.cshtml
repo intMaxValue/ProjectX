@@ -1,6 +1,6 @@
 ﻿@model ProjectX.ViewModels.Salon.SalonIndexViewModel
 
-<h1 class="mt-4 mb-3">ProjectX Salons</h1>
+<h1 class="mt-4 mb-3"><span class="projectx-title"><b>Project<span style="color: #FD7EBF; font-size: 50px; margin-right: 15px;">X</span>Salons</b></span></h1>
 
 @using (Html.BeginForm("Index", "Salons", FormMethod.Get, new { @class = "form-inline mt-3" }))
 {
@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <a asp-controller="Salons" asp-action="Create" class="btn btn-success mb-3 col-md-2" style="margin-left: auto; margin-right: 14px; margin-top: 10px; height:40px;">Add Salon to ProjectX</a>
+        <a asp-controller="Salons" asp-action="Create" class="btn btn-primary mb-3 col-md-2" style="margin-left: auto; margin-right: 14px; margin-top: 10px; height:40px;">Add Salon to ProjectX</a>
     </div>
 }
 
@@ -57,22 +57,22 @@
         @if (Model.PaginationInfo.TotalPages > 1)
         {
             <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Index", new { page = 1, searchQuery = ViewBag.SearchQuery })">First</a>
+                <a class="page-link btn-custom" href="@Url.Action("Index", new { page = 1, searchQuery = ViewBag.SearchQuery })" style="color: #56C6E6;">First</a>
             </li>
             <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Index", new { page = Model.PaginationInfo.CurrentPage - 1, searchQuery = ViewBag.SearchQuery })">Previous</a>
+                <a class="page-link btn-custom" href="@Url.Action("Index", new { page = Model.PaginationInfo.CurrentPage - 1, searchQuery = ViewBag.SearchQuery })" style="color: #56C6E6;">Previous</a>
             </li>
             @for (int i = 1; i <= Model.PaginationInfo.TotalPages; i++)
             {
                 <li class="page-item @(Model.PaginationInfo.CurrentPage == i ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = i, searchQuery = ViewBag.SearchQuery })">@i</a>
+                    <a class="page-link btn-custom" href="@Url.Action("Index", new { page = i, searchQuery = ViewBag.SearchQuery })" style="color: #56C6E6;">@i</a>
                 </li>
             }
             <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.TotalPages ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Index", new { page = Model.PaginationInfo.CurrentPage + 1, searchQuery = ViewBag.SearchQuery })">Next</a>
+                <a class="page-link btn-custom" href="@Url.Action("Index", new { page = Model.PaginationInfo.CurrentPage + 1, searchQuery = ViewBag.SearchQuery })" style="color: #56C6E6;">Next</a>
             </li>
             <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.TotalPages ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Index", new { page = Model.PaginationInfo.TotalPages, searchQuery = ViewBag.SearchQuery })">Last</a>
+                <a class="page-link btn-custom" href="@Url.Action("Index", new { page = Model.PaginationInfo.TotalPages, searchQuery = ViewBag.SearchQuery })" style="color: #56C6E6;">Last</a>
             </li>
         }
     </ul>
