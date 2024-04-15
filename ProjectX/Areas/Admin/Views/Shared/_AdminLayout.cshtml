@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Starter</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background-color: #343a40;
+            padding-top: 150px;
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+            .sidebar h3 {
+                color: #fff;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .sidebar ul {
+                padding: 0;
+                list-style: none;
+            }
+
+                .sidebar ul li {
+                    margin-bottom: 10px;
+                }
+
+                    .sidebar ul li a {
+                        display: block;
+                        padding: 10px 15px;
+                        color: #fff;
+                        text-decoration: none;
+                        transition: background-color 0.3s;
+                    }
+
+                        .sidebar ul li a:hover {
+                            background-color: #495057;
+                        }
+
+        .content-wrapper {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: flex-end; /* Align content to the right */
+            align-items: center;
+        }
+
+            .header-content ul.navbar-nav {
+                margin-left: auto; /* Move the navbar to the right */
+            }
+
+        .wrapper {
+            margin-top: 60px;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+    <header class="header">
+        <div class="header-content">
+            <partial name="_LoginPartial" />
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <h3>Admin Panel</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="btn btn-block btn-outline-light btn-danger">Starter Page</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Salons", new { area = "Admin" })" class="btn btn-block btn-outline-light btn-primary mt-5">Salons</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Users", new { area = "Admin" })" class="btn btn-block btn-outline-light btn-primary">Users</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })" class="btn btn-block btn-outline-light btn-success mt-5">Go to ProjectX</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content">
+            @RenderBody() <!-- Include main content here -->
+        </div>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ProjectX.Infrastructure.Data.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    string userId = UserManager.GetUserId(User);
+    var user = await UserManager.GetUserAsync(User);
+    string profilePictureUrl = (user != null ? user.ProfilePicture : null)!;
+    string username = user?.UserName!;
+}
+
+<!-- Additional styling for the partial wrapper -->
+<style>
+    .login-partial-wrapper {
+        /* Add your custom styling for the partial wrapper here */
+        margin-bottom: 20px; /* Example margin */
+        padding: 10px; /* Example padding */
+        background-color: #343a40; /* Example background color */
+        display: flex; /* Use flexbox for layout */
+        justify-content: space-between; /* Distribute items evenly along the main axis */
+        align-items: center; /* Center items vertically */
+        width: 100%;
+    }
+
+    /* Adjust styling for individual elements as needed */
+    .nav-link {
+        color: white; /* Example color */
+    }
+
+    .login-partial-wrapper h1 {
+        margin: 0; /* Remove default margin */
+    }
+
+    .login-partial-wrapper .container {
+        display: flex; /* Use flexbox for container */
+        align-items: center; /* Center items vertically */
+    }
+</style>
+
+<!-- Partial content -->
+<div class="login-partial-wrapper">
+    <div class="container">
+        <h1 style="margin-left: 250px; color: white;">Welcome, Admin Almighty!</h1>
+    </div>
+    <div class="container">
+        <ul class="navbar-nav ml-auto">
+            <!-- Adjusted class to ml-auto for margin-left:auto -->
+            <li class="nav-item">
+                <div class="nav-link d-flex align-items-center">
+                    <a class="text-white d-flex align-items-center" asp-area="" asp-controller="UserProfile" asp-action="Index" asp-route-id="@userId">
+                        @if (!string.IsNullOrEmpty(profilePictureUrl))
+                        {
+                            <img src="@profilePictureUrl" alt="Profile Picture" class="rounded-circle mr-2" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px">
+                        }
+                        <span>My Profile: @username</span>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-custom btn-link text-white"><b>Logout</b></button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
