@@ -101,13 +101,28 @@ namespace ProjectX.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Index", "Salons");
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    if (user != null)
+                    {
+                        var isAdmin = await _signInManager.UserManager.IsInRoleAsync(user, "Admin");
+                        if (isAdmin)
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Admin" });
+                        }
+                        else
+                        {
+                            return LocalRedirect(returnUrl); // Redirect to the returnUrl specified in the query string
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogWarning("User not found.");
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -125,8 +140,8 @@ namespace ProjectX.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
+
     }
 }
