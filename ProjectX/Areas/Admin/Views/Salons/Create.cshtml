@@ -1,0 +1,67 @@
+﻿@model ProjectX.ViewModels.Salon.CreateSalonViewModel
+
+@{
+    ViewData["Title"] = "Add Salon";
+}
+
+<h1 class="mt-4 mb-3">Add a Salon</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Name">Salon Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address">Address</label>
+                <input asp-for="Address" class="form-control mt-2" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City">City</label>
+                <input asp-for="City" class="form-control mt-2" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control mt-2" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <textarea asp-for="Description" class="form-control mt-2" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MapUrl">Map URL</label>
+                <input asp-for="MapUrl" class="form-control mt-2" />
+                <span asp-validation-for="MapUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="profilePicture">Profile Picture</label>
+                <input type="file" name="profilePicture" id="profilePicture" class="form-control-file mt-2" accept="image/*">
+                <span asp-validation-for="ProfilePictureUrl" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="OwnerId" value="@ViewBag.UserId" />
+
+            <a asp-area="Admin" asp-controller="Salons" asp-action="Index" class="btn btn-secondary mt-2">Back</a>
+
+            <button type="submit" class="btn btn-primary float-end mt-2">Submit</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
