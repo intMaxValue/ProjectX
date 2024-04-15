@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
 using ProjectX.Infrastructure.Data;
 using ProjectX.Infrastructure.Data.Models;
+using ProjectX.ViewModels.Admin;
 using ProjectX.ViewModels.Appointment;
 using ProjectX.ViewModels.Profile;
 
@@ -82,5 +83,35 @@ namespace ProjectX.Core.Services
 
             return appointments;
         }
+
+        public async Task<List<UserProfileViewModel>> GetAllUsersAsync(string searchQuery)
+        {
+            IQueryable<User> query = _userManager.Users;
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                query = query.Where(u => u.FirstName.ToLower().Contains(searchQuery) ||
+                                         u.LastName.ToLower().Contains(searchQuery) ||
+                                         u.City.ToLower().Contains(searchQuery) ||
+                                         u.PhoneNumber.ToLower().Contains(searchQuery));
+            }
+
+            var users = await query.Select(u => new UserProfileViewModel
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                City = u.City,
+                PhoneNumber = u.PhoneNumber,
+                ProfilePictureUrl = u.ProfilePicture,
+                UserName = u.UserName,
+            })
+            .OrderBy(u => u.FirstName)
+            .ToListAsync();
+
+            return users;
+        }
+
     }
 }
