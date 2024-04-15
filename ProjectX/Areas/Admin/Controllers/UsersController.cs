@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
 using ProjectX.Infrastructure.Data;
 using ProjectX.Infrastructure.Data.Models;
@@ -43,7 +44,7 @@ namespace ProjectX.Areas.Admin.Controllers
 
         public async Task<IActionResult> UserProfileDetails(string id)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
             if (user == null)
             {
