@@ -24,30 +24,32 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="list-group">
-                @foreach (var review in Model)
-                {
-                    <div class="list-group-item mb-3">
-                        <div class="d-flex align-items-center">
-                            <!-- User Profile Picture -->
-                            <img src="@review.UserProfilePictureUrl" class="img-fluid rounded-circle mr-3 photo" style="width: 50px; height: 50px; margin-right:20px;" title="User Profile Picture" alt="User Profile Picture">
-                            <!-- Review Content -->
-                            <div>
-                                <h5 class="font-weight-bold mb-1">@Html.DisplayFor(model => review.FullName) <span class="mb-0 text-muted">(@review.DatePosted.ToString("MMMM dd, yyyy HH:mm"))</span></h5>
-                                
-                                <p class="mb-0">@Html.DisplayFor(model => review.Comment)</p>
+                <div class="list-group" style="max-height: 500px; overflow-y: auto; scroll-behavior: smooth;">
+                    @foreach (var review in Model)
+                    {
+                        <div class="list-group-item mb-3">
+                            <div class="d-flex align-items-center">
+                                <!-- User Profile Picture -->
+                                <img src="@review.UserProfilePictureUrl" class="img-fluid rounded-circle mr-3 photo" style="width: 50px; height: 50px; margin-right:20px;" title="User Profile Picture" alt="User Profile Picture">
+                                <!-- Review Content -->
+                                <div>
+                                    <h5 class="font-weight-bold mb-1">@Html.DisplayFor(model => review.FullName) <span class="mb-0 text-muted">(@review.DatePosted.ToString("MMMM dd, yyyy HH:mm"))</span></h5>
 
-                                @if ((bool)ViewData["IsSalonOwner"] == true)
-                                {
-                                    <!-- Render delete button if the user is the SalonOwner -->
-                                    <form asp-action="Delete" asp-route-id="@review.Id" method="post" class="mt-2">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                }
+                                    <p class="mb-0">@Html.DisplayFor(model => review.Comment)</p>
+
+                                    @if ((bool)ViewData["IsSalonOwner"] == true)
+                                    {
+                                        <!-- Render delete button if the user is the SalonOwner -->
+                                        <form asp-action="Delete" asp-route-id="@review.Id" method="post" class="mt-2">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
