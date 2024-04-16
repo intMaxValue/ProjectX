@@ -30,6 +30,9 @@
                 <li class="nav-item" style="margin-left: 80px;">
                     <a class="nav-link text-dark  btn btn-custom" asp-area="" asp-controller="Salons" asp-action="Index"><b>All Salons</b></a>
                 </li>
+                <li class="nav-item" style="margin-left: 80px;">
+                    <a class="nav-link text-dark  btn btn-custom" asp-area="" asp-controller="AboutUs" asp-action="Index"><b>About Us</b></a>
+                </li>
             </ul>
             <ul class="navbar-nav">
                 @if (User.IsInRole("SalonOwner"))
