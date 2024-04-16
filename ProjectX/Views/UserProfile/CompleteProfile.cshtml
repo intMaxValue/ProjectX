@@ -1,7 +1,7 @@
 ﻿@model ProjectX.ViewModels.Profile.CompleteProfileViewModel
 
 <div class="row">
-    <form asp-controller="UserProfile" asp-action="CompleteProfile" method="post" enctype="multipart/form-data" id="completeProfileForm">
+    <form asp-area="" asp-controller="UserProfile" asp-action="CompleteProfile" method="post" enctype="multipart/form-data" id="completeProfileForm">
         <div class="form-group mt-2 col-md-4">
             <label asp-for="FirstName"></label>
             <input asp-for="FirstName" class="form-control" />
@@ -26,7 +26,7 @@
             <label for="ProfilePictureUrl">Profile Picture</label>
             <div class="input-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="ProfilePictureUrl" name="ProfilePictureUrl">
+                    <input type="file" class="custom-file-input" id="profilePicture" name="profilePicture">
                 </div>
             </div>
             <span asp-validation-for="ProfilePictureUrl" class="text-danger"></span>
