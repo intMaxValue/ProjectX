@@ -11,7 +11,7 @@ using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
-    [Authorize(Roles = "SalonOwner")]
+    [Authorize]
     public class MySalonController : Controller
     {
         private readonly ISalonService _salonService;

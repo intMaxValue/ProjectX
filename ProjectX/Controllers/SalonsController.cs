@@ -97,7 +97,7 @@ namespace ProjectX.Controllers
 
                     await _userManager.AddToRoleAsync(currentUser, "SalonOwner");
 
-                    return RedirectToAction("Index", "MySalon");
+                    return RedirectToAction("Index", "MySalon", new { area = "" });
                 }
                 catch (Exception)
                 {
