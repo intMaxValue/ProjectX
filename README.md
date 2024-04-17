@@ -4,6 +4,7 @@ SoftUni Project
 ProjectX is a comprehensive ASP .NET MVC web application designed to revolutionize the nail care industry. With custom Identity implementation and backed by MSSQL, ProjectX offers a seamless user experience for both customers and salon owners alike.
 
 Features
+
 Custom Identity: ProjectX integrates a custom Identity system, providing secure authentication and authorization for users.
 RSS News Feed: Stay updated with the latest news and trends in the world of nail polish and nail salons through the built-in RSS News Feed feature.
 Extensive Salon Collection: Explore an extensive collection of nail salons in every city, complete with a user-friendly search bar for easy navigation.
@@ -16,6 +17,7 @@ Admin Area: Admins have access to a specialized admin area, enabling them to man
 Custom Error Pages: ProjectX features custom 404 and 500 error pages, ensuring a seamless and professional user experience even in error scenarios.
 
 Installation
+
 To run ProjectX locally, follow these steps:
 
 Clone the repository to your local machine using git clone.
@@ -42,4 +44,5 @@ Contributing
 We welcome contributions from the community! If you'd like to contribute to ProjectX, please follow our contribution guidelines and submit a pull request.
 
 License
+
 ProjectX is licensed under the MIT License.
