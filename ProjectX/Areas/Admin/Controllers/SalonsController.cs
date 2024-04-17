@@ -8,6 +8,9 @@ using ProjectX.ViewModels.Salon;
 
 namespace ProjectX.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// Controller for managing salon-related operations in the admin area.
+    /// </summary>
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
     public class SalonsController : Controller
@@ -25,6 +28,12 @@ namespace ProjectX.Areas.Admin.Controllers
             _imageUploader = imageUploader;
         }
 
+        /// <summary>
+        /// Displays a paginated list of salons with the option to search.
+        /// </summary>
+        /// <param name="searchQuery">The search query to filter salons.</param>
+        /// <param name="page">The page number for pagination.</param>
+        /// <returns>The view displaying the paginated list of salons.</returns>
         public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
             ViewBag.SearchQuery = searchQuery;
@@ -62,6 +71,11 @@ namespace ProjectX.Areas.Admin.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Displays the details of a salon.
+        /// </summary>
+        /// <param name="id">The ID of the salon.</param>
+        /// <returns>The view displaying the salon details.</returns>
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -96,8 +110,11 @@ namespace ProjectX.Areas.Admin.Controllers
             return View(model);
         }
 
-        
-        // POST: AdminSalons/Delete/5
+        /// <summary>
+        /// Deletes a salon with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the salon to delete.</param>
+        /// <returns>A redirection to the index action after deletion.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -105,7 +122,6 @@ namespace ProjectX.Areas.Admin.Controllers
             await _salonService.DeleteSalonAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
 
     }
 }

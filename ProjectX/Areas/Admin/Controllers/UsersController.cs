@@ -9,6 +9,9 @@ using ProjectX.ViewModels.Admin;
 
 namespace ProjectX.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// Controller for managing user-related operations in the admin area.
+    /// </summary>
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
@@ -24,6 +27,11 @@ namespace ProjectX.Areas.Admin.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Displays a list of users with the option to search.
+        /// </summary>
+        /// <param name="searchQuery">The search query to filter users.</param>
+        /// <returns>The view displaying the list of users.</returns>
         public async Task<IActionResult> Index(string searchQuery)
         {
             var users = await _userService.GetAllUsersAsync(searchQuery);
@@ -42,6 +50,11 @@ namespace ProjectX.Areas.Admin.Controllers
             return View(users);
         }
 
+        /// <summary>
+        /// Displays the details of a user's profile.
+        /// </summary>
+        /// <param name="id">The ID of the user.</param>
+        /// <returns>The view displaying the user's profile details.</returns>
         public async Task<IActionResult> UserProfileDetails(string id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
