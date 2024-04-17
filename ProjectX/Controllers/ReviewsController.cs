@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace ProjectX.Controllers
 {
+    /// <summary>
+    /// Controller for managing reviews, including displaying reviews for a specific salon, creating new reviews, and deleting existing reviews.
+    /// </summary>
     public class ReviewsController : Controller
     {
         private readonly IReviewService _reviewService;
@@ -18,7 +21,11 @@ namespace ProjectX.Controllers
             _userProfileService = userProfileService;
         }
 
-        // GET: Reviews for a specific salon
+        /// <summary>
+        /// Displays reviews for a specific salon.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon to display reviews for.</param>
+        /// <returns>The view displaying the reviews for the specified salon.</returns>
         [HttpGet("/Salons/{salonId}/Reviews")]
         public async Task<IActionResult> Index(int salonId)
         {
@@ -45,8 +52,11 @@ namespace ProjectX.Controllers
             return View(reviews);
         }
 
-
-        // POST: Reviews/Create
+        /// <summary>
+        /// Creates a new review for a salon.
+        /// </summary>
+        /// <param name="review">The review to be created.</param>
+        /// <returns>A JSON response indicating the success or failure of the review creation.</returns>
         [HttpPost("/Salons/{salonId}/Reviews/CreateAsync")]
         public async Task<IActionResult> CreateAsync(ReviewViewModel review)
         {
@@ -67,7 +77,11 @@ namespace ProjectX.Controllers
         }
 
 
-        // POST: Reviews/Delete/5
+        /// <summary>
+        /// Deletes a review with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the review to delete.</param>
+        /// <returns>A redirect result to the index action displaying reviews for the associated salon, or an error page if an exception occurs.</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmedAsync(int id)

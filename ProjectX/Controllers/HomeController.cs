@@ -7,6 +7,9 @@ using ProjectX.Infrastructure.Data.Models;
 
 namespace ProjectX.Controllers
 {
+    /// <summary>
+    /// Controller for handling actions related to the home page and error handling.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,6 +21,10 @@ namespace ProjectX.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Displays the home page.
+        /// </summary>
+        /// <returns>The view displaying the home page.</returns>
         [AllowAnonymous] // Allow access to non-logged-in users
         public IActionResult Index()
         {
@@ -31,6 +38,10 @@ namespace ProjectX.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Handles errors and displays the error page.
+        /// </summary>
+        /// <returns>The view displaying the error page.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

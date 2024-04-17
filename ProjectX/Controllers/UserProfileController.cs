@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectX.Core.Contracts;
+using ProjectX.Infrastructure.Data.Models;
 using ProjectX.ViewModels.Profile;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using ProjectX.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
+    /// <summary>
+    /// Manages user profile-related actions such as displaying, completing, and editing profiles, as well as retrieving user appointments.
+    /// </summary>
     [Authorize]
     public class UserProfileController : Controller
     {
@@ -23,6 +24,11 @@ namespace ProjectX.Controllers
             
         }
 
+        /// <summary>
+        /// Displays the profile of a user.
+        /// </summary>
+        /// <param name="id">The ID of the user.</param>
+        /// <returns>The view displaying the user's profile.</returns>
         [HttpGet]
         public async Task<IActionResult> Index(string id)
         {
@@ -37,6 +43,10 @@ namespace ProjectX.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays the complete profile page for a user, if the user hasn't completed his/her profile.
+        /// </summary>
+        /// <returns>The view displaying the complete profile form.</returns>
         [HttpGet]
         public IActionResult CompleteProfile()
         {
@@ -44,6 +54,12 @@ namespace ProjectX.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Handles the submission of the complete profile form.
+        /// </summary>
+        /// <param name="model">The complete profile view model.</param>
+        /// <param name="profilePicture">The profile picture uploaded by the user.</param>
+        /// <returns>The result of the profile completion attempt.</returns>
         [HttpPost]
         public async Task<IActionResult> CompleteProfile(CompleteProfileViewModel model, IFormFile profilePicture)
         {
@@ -71,6 +87,10 @@ namespace ProjectX.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Displays the edit profile page for the current user.
+        /// </summary>
+        /// <returns>The view displaying the edit profile form.</returns>
         [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
@@ -94,6 +114,12 @@ namespace ProjectX.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Handles the submission of the edit profile form.
+        /// </summary>
+        /// <param name="model">The complete profile view model.</param>
+        /// <param name="profilePicture">The profile picture uploaded by the user.</param>
+        /// <returns>The result of the profile update attempt.</returns>
         [HttpPost]
         public async Task<IActionResult> EditProfile(CompleteProfileViewModel model, IFormFile profilePicture)
         {
@@ -124,6 +150,10 @@ namespace ProjectX.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Retrieves appointments for the current user.
+        /// </summary>
+        /// <returns>A JSON representation of the user's appointments.</returns>
         [HttpGet]
         public async Task<IActionResult> GetUserAppointments()
         {

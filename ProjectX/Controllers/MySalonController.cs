@@ -11,6 +11,10 @@ using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
+    /// <summary>
+    /// Controller for managing actions related to the current user's salon,
+    /// including viewing salon details, editing salon information, adding photos, and managing appointments.
+    /// </summary>
     [Authorize]
     public class MySalonController : Controller
     {
@@ -27,6 +31,11 @@ namespace ProjectX.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Displays the index page for the current user's salon, including details and photo gallery.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon to display.</param>
+        /// <returns>The view displaying the salon details.</returns>
         public async Task<IActionResult> Index(int salonId)
         {
             // Retrieve salons owned by the current user
@@ -67,19 +76,20 @@ namespace ProjectX.Controllers
                 }).ToList()
             };
 
-            // Pass the list of all salons and the selected salon to the view
             ViewBag.SalonList = salons.Select(s => new MySalonViewModel
             {
                 SalonId = s.Id,
                 SalonName = s.Name
             }).ToList();
 
-            // Pass the selected salon to the view
             return View(mySalonViewModel);
         }
 
-
-
+        /// <summary>
+        /// Retrieves salon details for display in a partial view.
+        /// </summary>
+        /// <param name="id">The ID of the salon.</param>
+        /// <returns>A partial view containing salon details.</returns>
         [HttpGet]
         public async Task<IActionResult> GetSalonDetails(int id)
         {
@@ -117,6 +127,13 @@ namespace ProjectX.Controllers
             return PartialView("_SalonDetailsPartial", viewModel);
         }
 
+        /// <summary>
+        /// Adds a new photo to the salon's photo gallery.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <param name="photo">The photo to be added.</param>
+        /// <param name="caption">The caption for the photo.</param>
+        /// <returns>A redirection to the salon profile page.</returns>
         [HttpPost]
         public async Task<IActionResult> AddPhoto(int salonId, IFormFile photo, string caption)
         {
@@ -151,6 +168,11 @@ namespace ProjectX.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays the edit salon page with pre-populated values.
+        /// </summary>
+        /// <param name="id">The ID of the salon to edit.</param>
+        /// <returns>The view displaying the edit salon form.</returns>
         [HttpGet]
         public async Task<IActionResult> EditSalon(int id)
         {
@@ -181,6 +203,11 @@ namespace ProjectX.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Retrieves future appointments for a salon.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <returns>A JSON representation of future appointments.</returns>
         [HttpGet]
         public IActionResult GetAppointments(int salonId)
         {
@@ -203,10 +230,12 @@ namespace ProjectX.Controllers
             return Json(appointmentViewModels);
         }
 
-
-
-
-
+        /// <summary>
+        /// Handles the submission of the edit salon form and updates salon information.
+        /// </summary>
+        /// <param name="id">The ID of the salon to edit.</param>
+        /// <param name="viewModel">The view model containing updated salon information.</param>
+        /// <returns>A redirection to the salon details page.</returns>
         [HttpPost]
         public async Task<IActionResult> EditSalon(int id, CreateSalonViewModel viewModel)
         {
@@ -246,6 +275,13 @@ namespace ProjectX.Controllers
             // Redirect to the salon details page
             return RedirectToAction("Index", new { salonId = id });
         }
+
+        /// <summary>
+        /// Deletes an appointment.
+        /// </summary>
+        /// <param name="id">The ID of the appointment to delete.</param>
+        /// <param name="salonId">The ID of the salon associated with the appointment.</param>
+        /// <returns>A redirection to the salon index page.</returns>
         [HttpPost]
         public async Task<IActionResult> DeleteAppointment(int id, int salonId)
         {
@@ -275,7 +311,11 @@ namespace ProjectX.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Deletes a salon.
+        /// </summary>
+        /// <param name="id">The ID of the salon to delete.</param>
+        /// <returns>A redirection to the salon index page.</returns>
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

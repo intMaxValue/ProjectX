@@ -11,6 +11,9 @@ using ProjectX.Infrastructure.Data;
 
 namespace ProjectX.Controllers
 {
+    /// <summary>
+    /// Controller for managing chat functionality within salons.
+    /// </summary>
     [Authorize]
     public class ChatController : Controller
     {
@@ -25,6 +28,11 @@ namespace ProjectX.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Displays the chat room for a specific salon.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <returns>The view displaying the chat room.</returns>
         [HttpGet]
         public async Task<IActionResult> Index(int salonId)
         {
@@ -50,7 +58,12 @@ namespace ProjectX.Controllers
             return View(viewModel);
         }
 
-
+        /// <summary>
+        /// Sends a message to the chat room of a specific salon.
+        /// </summary>
+        /// <param name="message">The message to be sent.</param>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <returns>Redirects to the chat room view.</returns>
         [HttpPost]
         public async Task<IActionResult> SendMessage(ChatMessageViewModel message, int salonId)
         {
@@ -70,6 +83,14 @@ namespace ProjectX.Controllers
             return RedirectToAction(nameof(Index), new { salonId = salonId });
         }
 
+        /// <summary>
+        /// Creates a new appointment for a user in a specific salon.
+        /// </summary>
+        /// <param name="senderName">The name of the sender.</param>
+        /// <param name="dateTime">The date and time of the appointment.</param>
+        /// <param name="comment">Optional comment for the appointment.</param>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <returns>ActionResult indicating the success or failure of the appointment creation.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(string senderName, DateTime dateTime, string comment, int salonId)
         {

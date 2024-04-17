@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectX.Core.Contracts;
 using ProjectX.Core.Services;
 using ProjectX.Infrastructure.Data.Models;
@@ -9,6 +8,9 @@ using ProjectX.ViewModels.Salon;
 
 namespace ProjectX.Controllers
 {
+    /// <summary>
+    /// Manages operations related to salons, including listing salons, creating new salons, and viewing salon details.
+    /// </summary>
     [Authorize]
     public class SalonsController : Controller
     {
@@ -25,6 +27,12 @@ namespace ProjectX.Controllers
             _imageUploader = imageUploader; 
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of salons based on the search query and page number.
+        /// </summary>
+        /// <param name="searchQuery">The search query to filter salons.</param>
+        /// <param name="page">The page number for pagination.</param>
+        /// <returns>The view displaying the paginated list of salons.</returns>
         public async Task<IActionResult> Index(string searchQuery, int page = 1)
         {
             ViewBag.SearchQuery = searchQuery;
@@ -67,7 +75,10 @@ namespace ProjectX.Controllers
             return View(model);
         }
 
-
+        /// <summary>
+        /// Displays the page for creating a new salon.
+        /// </summary>
+        /// <returns>The view for creating a new salon.</returns>
         public async Task<IActionResult> Create()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
@@ -76,6 +87,12 @@ namespace ProjectX.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Handles the submission of the new salon creation form.
+        /// </summary>
+        /// <param name="model">The model containing salon information.</param>
+        /// <param name="profilePicture">The uploaded profile picture for the salon.</param>
+        /// <returns>The result of the salon creation attempt.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateSalonViewModel model, IFormFile profilePicture)
         {
@@ -109,6 +126,11 @@ namespace ProjectX.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Displays the details of a specific salon.
+        /// </summary>
+        /// <param name="id">The ID of the salon to display.</param>
+        /// <returns>The view displaying the details of the salon.</returns>
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
