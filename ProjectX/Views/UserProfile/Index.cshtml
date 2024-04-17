@@ -4,7 +4,7 @@
     ViewData["Title"] = "User Profile";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 pt-3 pb-3" style="box-shadow: 0px 4px 10px rgba(10, 10, 10, 0.3);">
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">
@@ -15,7 +15,7 @@
                 }
             </h5>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="background-image: url('/Images/purple-mirror.jpg'); background-size: contain; background-repeat:no-repeat; background-position: right;">
             <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
             <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
             <p><strong>City:</strong> @Model.City</p>
