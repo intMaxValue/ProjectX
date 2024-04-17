@@ -147,6 +147,19 @@
     </div>
 </div>
 
+<style>
+    .delete-appointment-button {
+        position: absolute;
+        top: 0;
+        right: 10px;        color: red;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-size: 25px;
+        font-weight:500;
+    }
+</style>
 
 @section Scripts {
     <script>
@@ -255,14 +268,23 @@
                             // Populate the list with appointments
                             $.each(response, function (index, appointment) {
                                 var appointmentBox = `<div class="col-md-4 mb-3">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">${appointment.dateTime}</h5>
-                                                                <h6 class="card-subtitle mb-2 text-muted">${appointment.userName}</h6>
-                                                                <p class="card-text">${appointment.comment}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>`;
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                            <!-- Hidden field to store appointment ID -->
+                                                        <input type="hidden" class="appointment-id" value="${appointment.id}" />
+                                                                <!-- Hidden field to store salon ID -->
+                                                        <input type="hidden" class="salon-id" value="${@Model.SalonId}" />
+                                                        <!-- Close button -->
+                                                        <button type="button" class="close delete-appointment-button" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+
+                                                        <h5 class="card-title">${appointment.dateTime}</h5>
+                                                        <h6 class="card-subtitle mb-2 text-muted">${appointment.userName}</h6>
+                                                        <p class="card-text">${appointment.comment}</p>
+                                                    </div>
+                                                </div>
+                                            </div>`;
                                 $('#appointmentList').append(appointmentBox);
                             });
                         }
@@ -276,5 +298,27 @@
             // Call fetchAppointments function when the page loads
             fetchAppointments();
         });
+
+        $(document).on('click', '.delete-appointment-button', function () {
+        var appointmentId = $(this).closest('.card-body').find('.appointment-id').val(); // Get the appointment ID
+        var salonId = $(this).closest('.card-body').find('.salon-id').val(); // Get the salon ID
+        if (confirm("Are you sure you want to delete this appointment?")) {
+            $.ajax({
+                url: '/MySalon/DeleteAppointment',
+                type: 'POST',
+                data: { id: appointmentId, salonId: salonId }, // Pass both appointmentId and salonId
+                success: function (result) {
+                    // Handle success (maybe remove the appointment card from the UI)
+                    alert("Appointment deleted successfully.");
+                    window.location.reload(); // Reload the page after deletion
+                },
+                error: function (xhr, status, error) {
+                    // Handle failure
+                    alert("An error occurred. Appointment could not be deleted.");
+                }
+            });
+        }
+        });
+
     </script>
 }
