@@ -1,10 +1,27 @@
 ﻿@using System.Security.Claims
 @model ProjectX.ViewModels.Chat.SalonChatViewModel
 
+<style>
+    .background-image {
+        position: fixed;
+        top: 0px;
+        left: 480px;
+        width: 100vw;
+        height: calc(100vh + 470px);
+        background-image: url('/Images/mysalon-colors-mirror.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        z-index: -1;
+        max-height: 100vh;
+    }
+</style>
+
+<div class="background-image"></div>
+
 <div class="container">
     <div class="row">
-        <h2 class="text-center">Live Chat</h2>
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8 offset-md-2" style="box-shadow: 0px 4px 10px rgba(10, 10, 10, 0.3); padding: 15px 25px 45px 25px;">
+        <h2 class="text-start">Live Chat</h2>
             <div class="card mt-5">
                 <div class="card-header text-center">
                     <h3 class="card-title">@Model.SalonName</h3>
