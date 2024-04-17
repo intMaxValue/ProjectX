@@ -5,6 +5,9 @@ using System.Net.Http.Headers;
 
 namespace ProjectX.Core.Services
 {
+    /// <summary>
+    /// Service for uploading images to Imgur.
+    /// </summary>
     public class ImageUploader : IImageUploader
     {
         private readonly HttpClient _httpClient;
@@ -16,6 +19,11 @@ namespace ProjectX.Core.Services
             _clientId = clientId ?? throw new ArgumentNullException(nameof(clientId));
         }
 
+        /// <summary>
+        /// Uploads an image asynchronously to Imgur.
+        /// </summary>
+        /// <param name="imageFile">The image file to upload.</param>
+        /// <returns>The URL of the uploaded image.</returns>
         public async Task<string> UploadImageAsync(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length <= 0)

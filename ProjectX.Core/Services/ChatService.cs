@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjectX.Core.Contracts;
@@ -11,9 +6,13 @@ using ProjectX.Infrastructure.Data;
 using ProjectX.Infrastructure.Data.Models;
 using ProjectX.Infrastructure.Data.Models.Chat;
 using ProjectX.ViewModels.Chat;
+using System.Security.Claims;
 
 namespace ProjectX.Core.Services
 {
+    /// <summary>
+    /// Service for managing chat functionality.
+    /// </summary>
     public class ChatService : IChatService
     {
         private readonly ApplicationDbContext _dbContext;
@@ -29,6 +28,12 @@ namespace ProjectX.Core.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        /// <summary>
+        /// Gets chat messages for a specific salon.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <param name="user">The user accessing the chat.</param>
+        /// <returns>A list of chat messages for the specified salon.</returns>
         public async Task<IEnumerable<ChatMessageViewModel>> GetChatMessagesForRoomAsync(int salonId, ClaimsPrincipal user)
         {
             var userName = user.Identity.Name;
@@ -54,6 +59,12 @@ namespace ProjectX.Core.Services
             return chatMessages;
         }
 
+        /// <summary>
+        /// Sends a chat message to a salon's chat room.
+        /// </summary>
+        /// <param name="message">The chat message to send.</param>
+        /// <param name="senderId">The ID of the message sender.</param>
+        /// <param name="salonId">The ID of the salon.</param>
         public async Task SendMessageAsync(ChatMessageViewModel message, string senderId, int salonId)
         {
             // Check if the chat room with the specified salonId exists
@@ -90,11 +101,20 @@ namespace ProjectX.Core.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Checks if a chat room exists for a specified salon.
+        /// </summary>
+        /// <param name="salonId">The ID of the salon.</param>
+        /// <returns>True if a chat room exists for the salon; otherwise, false.</returns>
         public async Task<bool> DoesChatRoomExistAsync(int salonId)
         {
             return await _dbContext.ChatRooms.AnyAsync(room => room.SalonId == salonId);
         }
 
+        /// <summary>
+        /// Retrieves the current user from the HTTP context.
+        /// </summary>
+        /// <returns>The current user.</returns>
         public async Task<User> GetCurrentUserAsync()
         {
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);

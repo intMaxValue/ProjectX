@@ -4,8 +4,18 @@ using ProjectX.ViewModels.RssNewsFeed;
 
 namespace ProjectX.Core.Services
 {
+    /// <summary>
+    /// Service for retrieving RSS news feed items.
+    /// </summary>
     public class RssFeedService : IRssFeedService
     {
+        /// <summary>
+        /// Retrieves RSS news feed items from the specified URL with pagination.
+        /// </summary>
+        /// <param name="url">The URL of the RSS feed.</param>
+        /// <param name="page">The page number to retrieve (default is 1).</param>
+        /// <param name="pageSize">The number of items per page (default is 10).</param>
+        /// <returns>A list of <see cref="NewsItemViewModel"/> representing the RSS feed items.</returns>
         public async Task<List<NewsItemViewModel>> GetRssFeedAsync(string url, int page = 1, int pageSize = 10)
         {
             List<NewsItemViewModel> newsItems = new List<NewsItemViewModel>();
