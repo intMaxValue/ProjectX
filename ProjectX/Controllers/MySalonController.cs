@@ -194,6 +194,7 @@ namespace ProjectX.Controllers
 
             var appointmentViewModels = appointments.Select(a => new
             {
+                Id = a.Id,
                 DateTime = a.DateAndTime.ToString("yyyy-MM-dd HH:mm"),
                 UserName = a.User.UserName,
                 Comment = a.Comment
@@ -245,6 +246,35 @@ namespace ProjectX.Controllers
             // Redirect to the salon details page
             return RedirectToAction("Index", new { salonId = id });
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteAppointment(int id, int salonId)
+        {
+            // Retrieve the appointment by ID
+            var appointment = await _dbContext.Appointments.FindAsync(id);
+
+            // Check if the appointment exists
+            if (appointment == null)
+            {
+                // If the appointment does not exist, return a not found response
+                return NotFound();
+            }
+
+            try
+            {
+                // Remove the appointment from the database
+                _dbContext.Appointments.Remove(appointment);
+                await _dbContext.SaveChangesAsync();
+
+                // Return a success response by redirecting to the Index action with the salonId parameter
+                return RedirectToAction("Index", new { salonId });
+            }
+            catch (Exception)
+            {
+                // Handle errors appropriately
+                return StatusCode(500, "An error occurred while deleting the appointment.");
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
