@@ -3,7 +3,7 @@
   <h1>ProjectX</h1>
   <p>SoftUni Project</p>
 
-  <p>ProjectX is a comprehensive ASP .NET MVC web application designed to revolutionize the nail care industry. With custom Identity implementation and backed by MSSQL, ProjectX offers a seamless user experience for both customers and salon owners alike.</p>
+  <p>ProjectX is a comprehensive ASP .NET MVC web application designed to revolutionize the nail care industry and hopefully secure me an Excellent score during the Softuni project defense. With custom Identity implementation and backed by MSSQL, ProjectX offers a seamless user experience for both customers and salon owners alike.</p>
 
   <h2>Features</h2>
   <ul class="feature-list">
