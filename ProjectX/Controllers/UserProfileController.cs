@@ -61,6 +61,7 @@ namespace ProjectX.Controllers
         /// <param name="profilePicture">The profile picture uploaded by the user.</param>
         /// <returns>The result of the profile completion attempt.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteProfile(CompleteProfileViewModel model, IFormFile profilePicture)
         {
             if (ModelState.IsValid)
@@ -121,6 +122,7 @@ namespace ProjectX.Controllers
         /// <param name="profilePicture">The profile picture uploaded by the user.</param>
         /// <returns>The result of the profile update attempt.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProfile(CompleteProfileViewModel model, IFormFile profilePicture)
         {
             if (ModelState.IsValid)

@@ -2,6 +2,7 @@
 
 <div class="row">
     <form asp-area="" asp-controller="UserProfile" asp-action="CompleteProfile" method="post" enctype="multipart/form-data" id="completeProfileForm">
+        @Html.AntiForgeryToken()
         <div class="form-group mt-2 col-md-4">
             <label asp-for="FirstName"></label>
             <input asp-for="FirstName" class="form-control" />

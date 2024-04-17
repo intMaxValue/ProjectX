@@ -3,6 +3,7 @@
 
 <div class="row">
     <form id="editProfileForm" asp-controller="UserProfile" asp-action="EditProfile" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
         <div class="form-group mt-2 col-md-4">
             <label for="FirstName">First Name</label>
             <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required>

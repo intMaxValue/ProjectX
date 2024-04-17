@@ -237,6 +237,7 @@ namespace ProjectX.Controllers
         /// <param name="viewModel">The view model containing updated salon information.</param>
         /// <returns>A redirection to the salon details page.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSalon(int id, CreateSalonViewModel viewModel)
         {
             if (!ModelState.IsValid)

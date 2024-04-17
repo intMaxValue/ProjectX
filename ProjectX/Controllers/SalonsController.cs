@@ -94,6 +94,7 @@ namespace ProjectX.Controllers
         /// <param name="profilePicture">The uploaded profile picture for the salon.</param>
         /// <returns>The result of the salon creation attempt.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateSalonViewModel model, IFormFile profilePicture)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);

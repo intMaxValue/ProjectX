@@ -21,6 +21,7 @@
             </div>
 
             <form asp-action="EditSalon" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label asp-for="Name">Salon Name</label>
                     <input asp-for="Name" class="form-control" />
